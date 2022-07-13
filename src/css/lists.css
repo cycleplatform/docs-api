@@ -1,0 +1,53 @@
+.markdown ol {
+    counter-reset: list-count;
+    list-style: none;
+    padding-left: 40px;
+}
+
+.markdown ol > li:not([role="tabs"]) {
+    margin: 0 0 0.5rem 0;
+    counter-increment: list-count;
+    position: relative;
+    list-style: none;
+}
+
+.markdown ol > li:not([role="tabs"]):before {
+    --size: 24px;
+    content: counter(list-count);
+    color: white;
+    font-size: 0.85rem;
+    font-weight: bold;
+    position: absolute;
+    left: calc(-1 * var(--size) - 10px);
+    line-height: var(--size);
+    width: var(--size);
+    height: var(--size);
+    top: 2px;
+    background: var(--cycle-blue);
+    border-radius: 50%;
+    text-align: center;
+}
+
+.markdown ul:not([role="tablist"]) {
+    list-style: none;
+}
+
+/*.markdown ul > li:not([role="tablist"]) {*/
+/*    position: relative;*/
+/*}*/
+
+.markdown ul:not([role="tablist"]) > li {
+    position: relative;
+}
+
+.markdown ul > li:not([role="tablist"]):before {
+    content: "";
+    --size: 8px;
+    background-color: var(--cycle-blue);
+    top: 10px;
+    left: calc(-1 * var(--size) - 8px);
+    height: var(--size);
+    width: var(--size);
+    border-radius: 50%;
+    position: absolute;
+}

@@ -1,0 +1,63 @@
+/* stylelint-disable docusaurus/copyright-header */
+
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.hero__subtitle {
+  color: var(--cycle-white) !important;
+}
+
+.heroBanner {
+  background-color: var(--cycle-black);
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  color: white;
+  background-image: url("/static/imgs/cycle/hero-background-layer.svg");
+  background-size: cover;
+
+  flex: 1 0 auto;
+}
+
+.heroContainer {
+  margin: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.heroImageDiv {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  color: var(--cycle-white) !important;
+}
+
+.heroTitle {
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-size: 4rem;
+  margin-bottom: 0;
+}
+
+.heroSubtitle {
+  padding: 1.5rem 0 3rem;
+  margin-bottom: 0;
+}
+
+.heroImage {
+  width: 75%;
+}
+
+@media screen and (max-width: 966px) {
+  .heroTitle {
+    font-size: 3rem;
+  }
+  .heroBanner {
+    padding: 2rem;
+  }
+  .heroImage {
+    display: none;
+  }
+}
