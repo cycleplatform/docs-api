@@ -1795,7 +1795,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/TelemetryReport'
+                    $ref: '#/components/schemas/InstanceTelemetryReport'
         '400':
           description: This usually means the data sent was in an invalid format.
           content:
@@ -4878,7 +4878,7 @@ paths:
     patch:
       operationId: updateStack
       tags:
-        - Stack
+        - Stacks
       parameters:
         - name: stackId
           in: path
@@ -5156,7 +5156,7 @@ paths:
     post:
       operationId: createStackBuild
       tags:
-        - Stack
+        - Stacks
       parameters:
         - name: stackId
           in: path
@@ -6193,6 +6193,155 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/hubs/current/notifications:
+    get:
+      tags:
+        - WebsocketAuth
+      parameters: []
+      summary: Authentication information used for hub notifications websocket.
+      description: Requires the `hubs-notifications-listen` capability.
+      responses:
+        '200':
+          description: Returns a token.
+          content:
+            application/json:
+              schema:
+                title: HubNotificationAuthResponse
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/HubNotificationToken'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  '/v1/containers/{containerId}/instances/{instanceId}/console':
+    get:
+      tags:
+        - WebsocketAuth
+      parameters:
+        - name: containerId
+          in: path
+          required: true
+          description: The ID for the container
+          schema:
+            type: string
+        - name: instanceId
+          in: path
+          required: true
+          description: The ID of the instance.
+          schema:
+            type: string
+      summary: Authentication information used for instance console websocket.
+      description: Requires the `contaiers-console` capability.
+      responses:
+        '200':
+          description: Returns a token and address.
+          content:
+            application/json:
+              schema:
+                title: InstanceConsoleAuthResponse
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/InstanceConsoleAuth'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  '/v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/stream':
+    get:
+      tags:
+        - WebsocketAuth
+      parameters:
+        - name: containerId
+          in: path
+          required: true
+          description: The ID for the container
+          schema:
+            type: string
+        - name: instanceId
+          in: path
+          required: true
+          description: The ID of the instance.
+          schema:
+            type: string
+      summary: Authentication info used for instance telemetry websocket.
+      description: Requires the `containers-view` capability.
+      responses:
+        '200':
+          description: Returns a token and an address.
+          content:
+            application/json:
+              schema:
+                title: InstanceTelemeteryStreamAuthResponse
+                properties:
+                  data:
+                    $ref: '#/components/schemas/InstanceTelemetryStreamAuth'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   securitySchemes:
     bearerAuth:
@@ -7122,6 +7271,50 @@ components:
               speed:
                 type: integer
                 description: The speed of the processor.
+    CPUSnapshot:
+      title: InstanceTelemetryCPUSnapshot
+      type: object
+      description: A telemetry snapshot pertaining to CPU usage.
+      required:
+        - usage
+        - throttling
+      properties:
+        usage:
+          type: object
+          description: Usage statistics.
+          required:
+            - total
+            - per_core
+            - kernel
+            - user
+          properties:
+            total:
+              type: integer
+              description: Total amount of VPU time since last restart.
+            per_core:
+              description: An array showing CPU core specific usage in nanoseconds since the last restart.
+              type: array
+              items:
+                type: integer
+            kernel:
+              type: integer
+              description: The amount of time in nanoseconds used by the kernel since last restart.
+            user:
+              type: number
+              description: The amount of time in nanoseconds taken up for user processes.
+        throttling:
+          type: object
+          description: Throttling statistics.
+          properties:
+            periods:
+              type: integer
+              description: The amount of periods that have passed since the last restart.
+            throttled_periods:
+              type: integer
+              description: How many times the instance has been throttled for using all its alloted CPU during a period.
+            throttled_time:
+              type: integer
+              description: The amount of time in nanoseconds this instnace has spent with throttled CPU resources.
     CPUSpec:
       title: CPUServerSpec
       type: object
@@ -8509,6 +8702,16 @@ components:
       properties:
         membership:
           $ref: '#/components/schemas/HubMembership'
+    HubNotificationToken:
+      title: HubNotificationPipelineAuthResponse
+      description: A token resource.
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          description: A token used for connecting to the hub notification pipeline websocket API.
     HubState:
       title: HubState
       allOf:
@@ -8526,6 +8729,20 @@ components:
                 - deleting
                 - deleted
         - $ref: '#/components/schemas/State'
+    HugeTLB:
+      title: HugeTLB
+      type: object
+      description: HugeTLB data.
+      properties:
+        usage:
+          type: integer
+          description: The number of bytes being consumed by huge pages of all sizes.
+        max:
+          type: integer
+          description: The maximum number of bytes allowed to be used for huge pages for this instance.
+        fail_count:
+          type: integer
+          description: The number of times the hugeTLB memory limit has been exceeded by this instance.
     IALAuth:
       title: IALAuth
       type: object
@@ -9221,6 +9438,20 @@ components:
             first_started:
               description: The timestamp of when the instance was started.
               $ref: '#/components/schemas/DateTime'
+    InstanceConsoleAuth:
+      title: InstanceConsoleAuth
+      description: Resources needed to connect to the instance console websocket.
+      type: object
+      required:
+        - token
+        - address
+      properties:
+        token:
+          type: string
+          description: A token used for connecting to the instance console through the websocket API.
+        address:
+          type: string
+          description: The protocol and url for connecting to the console.
     InstanceIncludes:
       title: InstanceIncludes
       description: A resource associated with an instance.
@@ -9306,6 +9537,35 @@ components:
           type: object
           additionalProperties:
             type: string
+    InstanceTelemetryReport:
+      title: InstanceResouceTelemetryReport
+      type: object
+      description: An instance resource telemetry report resource.
+      required:
+        - request
+        - snapshots
+      properties:
+        request:
+          $ref: '#/components/schemas/TelemetryReportRequest'
+        snapshots:
+          description: An array of telemetry snapshots.
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceSnapshot'
+    InstanceTelemetryStreamAuth:
+      title: InstanceTelemetryStreamAuth
+      description: Resources needed to connect to the instance telemetery stream.
+      type: object
+      required:
+        - token
+        - address
+      properties:
+        token:
+          type: string
+          description: A token used for connecting to the instnace telemetry stream through the websocket API.
+        address:
+          type: string
+          description: The protocol and url for connecting to the stream.
     InstanceVolume:
       title: InstanceVolume
       type: object
@@ -9868,6 +10128,42 @@ components:
                 - revoked
                 - deleted
         - $ref: '#/components/schemas/State'
+    MemoryData:
+      title: MemoryData
+      type: object
+      properties:
+        usage:
+          type: number
+          description: The number in bytes of memory being used by the instance at the time of the snapshot.
+        max_usage:
+          type: number
+          description: The highest amoun tof memory usage since the last restart.
+        fail_count:
+          type: number
+          description: The number of times the memory liimit was exceeded for the instance.
+        limit:
+          type: number
+          description: The maximum number of bytes of memory this instance has acess to.
+    MemorySnapshot:
+      title: InstanceTelemetryMemorySnapshot
+      type: object
+      description: A snapshot of memory usage statistics.
+      properties:
+        cache:
+          type: number
+          description: The number of bytes of page cache memory being used by this instance.
+        usage:
+          description: The memory usage data.
+          $ref: '#/components/schemas/MemoryData'
+        swap_usage:
+          description: Memory swap usage data.
+          $ref: '#/components/schemas/MemoryData'
+        kernel_usage:
+          description: Kernal memory usage.
+          $ref: '#/components/schemas/MemoryData'
+        kernel_tcp_usage:
+          description: Kernel TCP buffer usage.
+          $ref: '#/components/schemas/MemoryData'
     MemorySpec:
       title: MemoryServerSpec
       type: object
@@ -10469,6 +10765,17 @@ components:
             - $ref: '#/components/schemas/IPNet'
         legacy:
           $ref: '#/components/schemas/LegacyNetwork'
+    ProcessesSnapshot:
+      title: InstanceTelemetryProcessesSnapshot
+      type: object
+      description: Process information for a given snapshot.
+      properties:
+        current:
+          type: number
+          description: The current number of running processes in the instance.
+        limit:
+          type: number
+          description: The maximum number of running processes for the instance.
     Provider:
       title: Provider
       type: object
@@ -11101,6 +11408,38 @@ components:
                 step:
                   type: string
                   description: An identifier for the step to be reported on.
+    ResourceSnapshot:
+      title: InstanceTelemetryResourceSnapshot
+      description: A resource snapshot that shows instance telemetry.
+      type: object
+      required:
+        - time
+        - cpu
+        - memory
+        - processes
+      properties:
+        time:
+          description: A timestamp of the time this snapshot was captured at.
+          $ref: '#/components/schemas/DateTime'
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+        container_id:
+          type: string
+          description: An ID for an associated container.
+        instance_id:
+          type: string
+          description: An ID for an associated instance.
+        environment_id:
+          type: string
+          descritpion: An ID for an associated environment.
+        cpu:
+          $ref: '#/components/schemas/CPUSnapshot'
+        memory:
+          $ref: '#/components/schemas/MemorySnapshot'
+        processes:
+          $ref: '#/components/schemas/ProcessesSnapshot'
+        hugetlb:
+          $ref: '#/components/schemas/HugeTLB'
     Resources:
       title: ContainerResources
       type: object
@@ -12455,31 +12794,24 @@ components:
             total:
               type: number
               description: The total amount of storage available.
-    TelemetryReport:
-      title: InstanceTelemetryReport
+    TelemetryReportRequest:
+      title: InstanceTelemetryReportRequest
       type: object
-      description: A summary of report requests and resource snapshots.
+      description: A summary of report requests and when they occured.
       required:
-        - request
-        - snapshots
+        - instance_id
+        - start
+        - end
       properties:
-        request:
-          type: object
-          description: A report request summary object.
-          required:
-            - instance_id
-            - start
-            - end
-          properties:
-            instance_id:
-              type: string
-              description: The ID of the instance this telemetry reporting pertains to.
-            start:
-              description: A timestamp of when the snapshot began.
-              $ref: '#/components/schemas/DateTime'
-            end:
-              description: A timestamp of when the snapshot ended.
-              $ref: '#/components/schemas/DateTime'
+        instance_id:
+          type: string
+          description: The ID of the instance this telemetry reporting pertains to.
+        start:
+          description: A timestamp of when the snapshot began.
+          $ref: '#/components/schemas/DateTime'
+        end:
+          description: A timestamp of when the snapshot ended.
+          $ref: '#/components/schemas/DateTime'
     Term:
       title: BillingTerm
       type: object
