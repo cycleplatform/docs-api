@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import HomepageFeatures from "../components/HomepageFeatures";
+import HomepageFeatures from "../components/HomepageFeatures/HomepageFeatures";
 import styles from "./index.module.css";
 import clsx from "clsx";
 
