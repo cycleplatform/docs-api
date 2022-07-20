@@ -14,14 +14,15 @@ module.exports = {
   organizationName: "cycleplatform", // Usually your GitHub org/user name.
   projectName: "docs-portal", // Usually your repo name.
   // themes: ["@saucelabs/theme-github-codeblock"],
+  themes: ["@docusaurus/theme-search-algolia"],
   themeConfig: {
     // defaultMode: "dark",
     // respectPrefersColorScheme: false,
     // hideableSidebar: true,
     algolia: {
-      apiKey: "244e0078287a09c076d180a1ce1ae05a",
-      indexName: "prod_portal",
-      appId: "DV41ALWI3Z",
+      apiKey: "e3d876b635908b0ab9c420076449e467",
+      indexName: "api-docs",
+      appId: "3IWTY7DLF6",
     },
     docs: {
       sidebar: {
