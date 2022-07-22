@@ -3,7 +3,7 @@ sidebar_position: 3
 title: Instance Console
 ---
 
-# Instnace Console Websocket
+# Instance Console Websocket
 
 The instance console pipeline is a websocket connection that broadcasts the events of an instance's PID 1 as a raw data stream.
 
