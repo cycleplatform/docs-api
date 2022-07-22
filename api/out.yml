@@ -46,7 +46,7 @@ paths:
                 - stacks
         - $ref: '#/components/parameters/SortParam'
         - $ref: '#/components/parameters/FilterParam'
-      summary: Get a list of environments.
+      summary: Get a list of environments
       description: Requires the `environments-view` capability.
       responses:
         '200':
@@ -95,7 +95,7 @@ paths:
       tags:
         - Environments
       parameters: []
-      summary: Create Environment.
+      summary: Create Environment
       description: Requires the `environments-create` capability.
       requestBody:
         $ref: '#/components/requestBodies/CreateEnvironmentBody'
@@ -169,7 +169,7 @@ paths:
               enum:
                 - creators
                 - stacks
-      summary: Fetch Environment.
+      summary: Fetch Environment
       description: Requires the `environments-view` capability.
       responses:
         '200':
@@ -222,7 +222,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Update Environment.
+      summary: Update Environment
       description: 'Updates the specificed environment, setting the values of the parameters passed. If any parameters are omitted, they will be left unchanged. Requires the `environments-update` capability.'
       requestBody:
         $ref: '#/components/requestBodies/UpdateEnvironmentBody'
@@ -273,7 +273,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Create Environment Job.
+      summary: Create Environment Job
       description: 'Used to `start`, `stop`, or `delete` an environment. Requires the `environments-state` capability.'
       requestBody:
         description: Parameters for creating a new environment job.
@@ -338,7 +338,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch Environment Summary.
+      summary: Fetch Environment Summary
       description: Fetches a single summary object for a specific environment. Contains useful and relevant data/statistics that would otherwise be several separate API calls.  Requires the `environments-view` capability.
       responses:
         '200':
@@ -387,7 +387,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch LB Info.
+      summary: Fetch LB Info
       description: Requires the `environments-view` capability.
       responses:
         '200':
@@ -436,7 +436,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Reconfigure LB.
+      summary: Reconfigure LB
       description: Creates a task that will update the load balancer's configuration.
       requestBody:
         $ref: '#/components/requestBodies/LoadBalancerReconfigure'
@@ -487,7 +487,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Reconfigure Discovery.
+      summary: Reconfigure Discovery
       description: Creates a task that will update the discovery service's configuration.
       requestBody:
         $ref: '#/components/requestBodies/DiscoveryReconfigure'
@@ -538,7 +538,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch VPN Info.
+      summary: Fetch VPN Info
       description: Requires the `environments-vpn` capability.
       responses:
         '200':
@@ -587,7 +587,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: List Logins.
+      summary: List Logins
       description: Requires the `environments-vpn-manage` capability.
       responses:
         '200':
@@ -638,7 +638,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: List VPN Users.
+      summary: List VPN Users
       description: Requires the `environments-vpn-manage` capability.
       responses:
         '200':
@@ -688,7 +688,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Create VPN User.
+      summary: Create VPN User
       description: Requires the `environments-vpn-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/VPNUserCreate'
@@ -745,7 +745,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Delete VPN user.
+      summary: Delete VPN user
       description: Requires the `environments-vpn-manage` capability.
       responses:
         '200':
@@ -794,7 +794,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Reconfigure VPN.
+      summary: Reconfigure VPN
       description: Requires the `environments-vpn-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/VPNReconfigure'
@@ -845,7 +845,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: List Telemetry Data.
+      summary: List Telemetry Data
       description: Requires the `environments-view` capability.
       responses:
         '200':
@@ -889,7 +889,7 @@ paths:
       operationId: getContainers
       tags:
         - Containers
-      summary: List Containers.
+      summary: List Containers
       description: Requires the `containers-view` capability.
       parameters:
         - name: MetaParam
@@ -965,7 +965,7 @@ paths:
       tags:
         - Containers
       parameters: []
-      summary: Create Container.
+      summary: Create Container
       description: Requires the `containers-deploy` capability.
       requestBody:
         $ref: '#/components/requestBodies/CreateContainer'
@@ -1043,7 +1043,7 @@ paths:
                 - stack_builds
                 - stacks
                 - environments
-      summary: Fetch Container.
+      summary: Fetch Container
       description: Requires the `containers-view` capability.
       responses:
         '200':
@@ -1093,7 +1093,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Update Container.
+      summary: Update Container
       description: 'Updates the specified container, setting the values of the parameters passed.  If any parameters are omitted, they will be left unchanged. Requires the `contianers-update` capability.'
       requestBody:
         $ref: '#/components/requestBodies/UpdateContainer'
@@ -1144,7 +1144,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch Container Summary.
+      summary: Fetch Container Summary
       description: Requires the `containers-view` capability.
       responses:
         '200':
@@ -1192,7 +1192,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Create Container Job.
+      summary: Create Container Job
       description: 'Used to perform different actions on a given container. Requires the `containers-state`, `containers-update`, or `containers-volumes-manage` capability (respectively).'
       requestBody:
         description: Parameters for creating a new container job.
@@ -1268,7 +1268,7 @@ paths:
                 - environments
         - $ref: '#/components/parameters/SortParam'
         - $ref: '#/components/parameters/FilterParam'
-      summary: List Instances.
+      summary: List Instances
       description: Requires the `containers-view` capability.
       responses:
         '200':
@@ -1320,7 +1320,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Create Instance(s).
+      summary: Create Instance(s)
       description: Requires the `containers-update` capability.
       requestBody:
         $ref: '#/components/requestBodies/InstanceCreate'
@@ -1369,7 +1369,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Delete Instance(s).
+      summary: Delete Instance(s)
       description: Requires the `containers-update` capability.
       responses:
         '200':
@@ -1438,7 +1438,7 @@ paths:
                 - providers
                 - containers
                 - environments
-      summary: Fetch Instance.
+      summary: Fetch Instance
       description: Requires the `containers-view` capability.
       responses:
         '200':
@@ -1494,7 +1494,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Delete Instance.
+      summary: Delete Instance
       description: Requires the `containers-update` capability.
       responses:
         '200':
@@ -1548,7 +1548,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch SSH Credentials.
+      summary: Fetch SSH Credentials
       description: Requires the `containers-ssh` capability.
       responses:
         '200':
@@ -1602,7 +1602,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Expire SSH Credentials.
+      summary: Expire SSH Credentials
       description: Requires the `containers-ssh` capability.
       responses:
         '200':
@@ -1664,7 +1664,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Create Instance Task.
+      summary: Create Instance Task
       description: 'Used to perform different actions on a given container instance, requries `containers-instance-migrate` capability.'
       requestBody:
         description: Parameters for creating a new container instance job.
@@ -1726,7 +1726,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch Instance Volume(s).
+      summary: Fetch Instance Volume(s)
       description: Requires the `containers-view` capability.
       responses:
         '200':
@@ -1783,7 +1783,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch Instance Telemetry Report.
+      summary: Fetch Instance Telemetry Report
       description: Requires the `containers-view` capability.
       responses:
         '200':
@@ -1825,7 +1825,7 @@ paths:
       operationId: ContainersListServers
       tags:
         - Containers
-      summary: List Container Servers.
+      summary: List Container Servers
       description: Requires the `containers-view` capability.
       parameters:
         - name: containerId
@@ -1886,7 +1886,7 @@ paths:
       operationId: getUsableServers
       tags:
         - Containers
-      summary: List Usable Servers.
+      summary: List Usable Servers
       description: Requires the `containers-view` capability.
       parameters:
         - name: containerId
@@ -1968,7 +1968,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch Compatible Images.
+      summary: Fetch Compatible Images
       description: Requires the `containers-view` capability.
       responses:
         '200':
@@ -2019,7 +2019,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: List Backups.
+      summary: List Backups
       description: Requires the `containers-backups-view` capability.
       responses:
         '200':
@@ -2074,7 +2074,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch Backup.
+      summary: Fetch Backup
       description: Requires the `containers-backups-view` capability.
       responses:
         '200':
@@ -2128,7 +2128,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Delete Backup.
+      summary: Delete Backup
       description: Requires the `containers-backups-manage` capability.
       responses:
         '200':
@@ -2183,7 +2183,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Create Backup Job.
+      summary: Create Backup Job
       description: Used to restore a backup for a given container instance. Requires the `containers-backups-manage` capability.
       requestBody:
         description: Parameters for creating a new backup job.
@@ -2262,7 +2262,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: List Backup Logs.
+      summary: List Backup Logs
       description: Requires the `containers-backups-view` capability.
       responses:
         '200':
@@ -2319,7 +2319,7 @@ paths:
                 - creators
         - $ref: '#/components/parameters/SortParam'
         - $ref: '#/components/parameters/FilterParam'
-      summary: List DNS Zones.
+      summary: List DNS Zones
       description: Requires the `dns-view` capability.
       responses:
         '200':
@@ -2365,7 +2365,7 @@ paths:
       tags:
         - DNS
       parameters: []
-      summary: Create DNS Zone.
+      summary: Create DNS Zone
       description: Requires the `dns-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/CreateZoneRequest'
@@ -2416,7 +2416,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch DNS Zone.
+      summary: Fetch DNS Zone
       description: Requires the `dns-view` capability.
       responses:
         '200':
@@ -2474,7 +2474,7 @@ paths:
               type: string
               enum:
                 - creators
-      summary: Update DNS Zone.
+      summary: Update DNS Zone
       description: Requires the `dns-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/UpdateZoneRequest'
@@ -2526,7 +2526,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Delete DNS Zone.
+      summary: Delete DNS Zone
       description: Requires the `dns-manage` capability.
       responses:
         '200':
@@ -2574,7 +2574,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Create DNS Zone Job.
+      summary: Create DNS Zone Job
       description: 'Used to perform different actions on a given DNS zone, requires the `dns-manage` capability.'
       requestBody:
         description: Parameters for creating a new DNS zone job.
@@ -2648,7 +2648,7 @@ paths:
                 - creators
         - $ref: '#/components/parameters/SortParam'
         - $ref: '#/components/parameters/FilterParam'
-      summary: List Records.
+      summary: List Records
       description: Requires the `dns-view` capability.
       responses:
         '200':
@@ -2700,7 +2700,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Create Record.
+      summary: Create Record
       description: Requires the `dns-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/CreateRecordRequest'
@@ -2757,7 +2757,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Update a single DNS Record.
+      summary: Update a single DNS Record
       description: Requires the `dns-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/UpdateDNSRecordRequest'
@@ -2813,7 +2813,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Delete Record.
+      summary: Delete Record
       description: Requires the `dns-manage` capability.
       responses:
         '200':
@@ -2867,7 +2867,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Create a DNS record Job.
+      summary: Create a DNS record Job
       description: 'Used to perform different actionson a given DNS record, requires the `dns-manage` capability.'
       requestBody:
         description: Parameters for creating a new DNS zone job.
@@ -2923,7 +2923,7 @@ paths:
       tags:
         - DNS
       parameters: []
-      summary: List TLS Generate Attempts.
+      summary: List TLS Generate Attempts
       description: Requires the `dns-view` capability.
       responses:
         '200':
@@ -2957,7 +2957,7 @@ paths:
               type: string
               enum:
                 - memberships
-      summary: Fetch Hub.
+      summary: Fetch Hub
       description: Requires the `hubs-view` capability.
       responses:
         '200':
@@ -3005,7 +3005,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Update Hub.
+      summary: Update Hub
       description: 'Updates the specified hub, setting the values of the parameters passed.'
       requestBody:
         $ref: '#/components/requestBodies/UpdateHubRequest'
@@ -3049,7 +3049,7 @@ paths:
       operationId: getImages
       tags:
         - Images
-      summary: List Images.
+      summary: List Images
       description: Requires the `images-view` capability.
       parameters:
         - name: MetaParam
@@ -3165,7 +3165,7 @@ paths:
       operationId: getImage
       tags:
         - Images
-      summary: Fetch Image.
+      summary: Fetch Image
       description: Requires the `images-view` capability.
       parameters:
         - name: imageId
@@ -3328,7 +3328,7 @@ paths:
       operationId: getImagesContainers
       tags:
         - Images
-      summary: List Images Containers.
+      summary: List Images Containers
       description: Requires the `images-view` and `containers-view` capabilties.
       parameters:
         - name: imageId
@@ -3397,7 +3397,7 @@ paths:
       operationId: getImageBuildLog
       tags:
         - Images
-      summary: Fetch Build Log.
+      summary: Fetch Build Log
       description: Requires the `images-view` capability.
       parameters:
         - name: imageId
@@ -3469,7 +3469,7 @@ paths:
                 - creators
         - $ref: '#/components/parameters/SortParam'
         - $ref: '#/components/parameters/FilterParam'
-      summary: List Sources.
+      summary: List Sources
       description: Requires the `images-view` capability.
       responses:
         '200':
@@ -3515,7 +3515,7 @@ paths:
       tags:
         - Image Sources
       parameters: []
-      summary: Create Source.
+      summary: Create Source
       description: requires the `images-import` capability.
       requestBody:
         $ref: '#/components/requestBodies/SourceCreateRequest'
@@ -3586,7 +3586,7 @@ paths:
               type: string
               enum:
                 - creators
-      summary: Fetch Source.
+      summary: Fetch Source
       description: Requires the `images-view` capability.
       responses:
         '200':
@@ -3634,7 +3634,7 @@ paths:
           description: The ID of the image source.
           schema:
             type: string
-      summary: Update Source.
+      summary: Update Source
       description: Requires the `images-import` capability.
       requestBody:
         $ref: '#/components/requestBodies/SourceUpdateRequest'
@@ -3684,7 +3684,7 @@ paths:
           description: The ID of the image source.
           schema:
             type: string
-      summary: Delete a given image source.
+      summary: Delete a given image source
       description: Requires the `images-import` capability.
       responses:
         '200':
@@ -3726,7 +3726,7 @@ paths:
       tags:
         - Infrastructure
       parameters: []
-      summary: Fetch Infrastructure Summary.
+      summary: Fetch Infrastructure Summary
       description: Requires the `infrastructure-servers-view` capability.
       responses:
         '200':
@@ -3794,7 +3794,7 @@ paths:
                 - providers
         - $ref: '#/components/parameters/SortParam'
         - $ref: '#/components/parameters/FilterParam'
-      summary: List Servers.
+      summary: List Servers
       description: Requires the `servers-view` capability.
       responses:
         '200':
@@ -3840,7 +3840,7 @@ paths:
       tags:
         - Servers
       parameters: []
-      summary: Create Server.
+      summary: Create Server
       description: Requires the `servers-provision` capability.
       requestBody:
         $ref: '#/components/requestBodies/CreateServerRequest'
@@ -3914,7 +3914,7 @@ paths:
               enum:
                 - node
                 - instances_count
-      summary: Fetch Server.
+      summary: Fetch Server
       description: Requires the `servers-view` capability.
       responses:
         '200':
@@ -3964,7 +3964,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Update Server.
+      summary: Update Server
       description: Requires the `servers-update` capability.
       requestBody:
         $ref: '#/components/requestBodies/UpdateServerRequest'
@@ -4017,7 +4017,7 @@ paths:
             type: string
         - $ref: '#/components/parameters/SortParam'
         - $ref: '#/components/parameters/FilterParam'
-      summary: List Sever Telemetry.
+      summary: List Sever Telemetry
       description: Requires the `servers-view` capability. This call requires the filter query be used.
       responses:
         '200':
@@ -4083,7 +4083,7 @@ paths:
                 - providers
                 - containers
                 - environments
-      summary: List Server Instances.
+      summary: List Server Instances
       description: Requires the `containers-view` capability.
       responses:
         '200':
@@ -4136,7 +4136,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Create Server Job.
+      summary: Create Server Job
       description: Used to perform different actions on a given server. Requires the `servers-state` capability.
       requestBody:
         description: Parameters for creating the new server job.
@@ -4193,7 +4193,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: List Server Tags.
+      summary: List Server Tags
       description: Requires the `servers-view` capability.
       responses:
         '200':
@@ -4238,7 +4238,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: List Servers Clusters.
+      summary: List Servers Clusters
       description: Requires the `servers-view` capability.
       responses:
         '200':
@@ -4289,7 +4289,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch Server Usage.
+      summary: Fetch Server Usage
       description: Requires the `servers-view` capability.
       responses:
         '200':
@@ -4345,7 +4345,7 @@ paths:
                 - servers
                 - providers
                 - locations
-      summary: List Pools.
+      summary: List Pools
       description: Requires the `infrastructure-ips-manage` capability.
       responses:
         '200':
@@ -4396,7 +4396,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch Pool IP.
+      summary: Fetch Pool IP
       description: Requires the `infrastructure-ips-manage` capability.
       responses:
         '200':
@@ -4444,7 +4444,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Delete Pool IP.
+      summary: Delete Pool IP
       description: Requires the `infrastructure-ips-manage` capability.
       responses:
         '200':
@@ -4492,7 +4492,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: List Pool IP's.
+      summary: List Pool IP's
       description: Requires the `infrastructure-ips-manage` capability.
       responses:
         '200':
@@ -4537,7 +4537,7 @@ paths:
       tags:
         - Infrastructure
       parameters: []
-      summary: Fetch Deployment Strategies.
+      summary: Fetch Deployment Strategies
       description: This endpoint returns available container deployment strategies.
       responses:
         '200':
@@ -4631,7 +4631,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Fetch Job.
+      summary: Fetch Job
       description: Requires the `jobs-view` permission.
       responses:
         '200':
@@ -4674,7 +4674,7 @@ paths:
       tags:
         - Jobs
       parameters: []
-      summary: List Latest Jobs.
+      summary: List Latest Jobs
       description: Requires the `jobs-view` permission.
       responses:
         '200':
@@ -4718,7 +4718,7 @@ paths:
       operationId: getStacks
       tags:
         - Stacks
-      summary: List Stacks.
+      summary: List Stacks
       description: Requires the `stacks-view` permission.
       parameters:
         - name: MetaParam
@@ -4787,7 +4787,7 @@ paths:
       tags:
         - Stacks
       parameters: []
-      summary: Create Stack.
+      summary: Create Stack
       description: Requires the `stacks-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/CreateStackRequest'
@@ -4831,7 +4831,7 @@ paths:
       operationId: getStack
       tags:
         - Stacks
-      summary: Fetch Stack.
+      summary: Fetch Stack
       description: Requires the `stacks-view` capability.
       parameters:
         - name: stackId
@@ -4886,7 +4886,7 @@ paths:
           description: The ID of the stack
           schema:
             type: string
-      summary: Update Stack.
+      summary: Update Stack
       description: Requires the `stacks-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/UpdateStackRequest'
@@ -4936,7 +4936,7 @@ paths:
           description: The ID of the stack
           schema:
             type: string
-      summary: Delete Stack.
+      summary: Delete Stack
       description: Requires the `stacks-manage` capability.
       responses:
         '200':
@@ -4984,7 +4984,7 @@ paths:
           description: The ID of the stack
           schema:
             type: string
-      summary: Create Stack Job.
+      summary: Create Stack Job
       description: Requires the `stacks-manage` capability.
       requestBody:
         description: Parameters for creating a new stack job.
@@ -5038,7 +5038,7 @@ paths:
           description: The ID of the build.
           schema:
             type: string
-      summary: Fetch Stack Build.
+      summary: Fetch Stack Build
       description: Requires the `stacks-view` capability.
       responses:
         '200':
@@ -5114,7 +5114,7 @@ paths:
                 - state
         - $ref: '#/components/parameters/SortParam'
         - $ref: '#/components/parameters/FilterParam'
-      summary: List Builds.
+      summary: List Builds
       description: Requires the `stacks-view` capability.
       responses:
         '200':
@@ -5166,7 +5166,7 @@ paths:
           description: The ID of the stack
           schema:
             type: string
-      summary: Create Stack Build.
+      summary: Create Stack Build
       description: Requires the `stacks-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/CreateStackBuildRequest'
@@ -5223,7 +5223,7 @@ paths:
           description: The ID of the build.
           schema:
             type: string
-      summary: Fetch Stack Build.
+      summary: Fetch Stack Build
       description: Requires the `stacks-view` capability.
       responses:
         '200':
@@ -5277,7 +5277,7 @@ paths:
           description: The ID of the build.
           schema:
             type: string
-      summary: Delete Stack Build.
+      summary: Delete Stack Build
       description: Requires the `stacks-manage` capability.
       responses:
         '200':
@@ -5331,7 +5331,7 @@ paths:
           description: The ID of the build.
           schema:
             type: string
-      summary: Create Stack Build Job.
+      summary: Create Stack Build Job
       description: Requires the `stacks-manage` capability.
       requestBody:
         description: Parameters for creating a new stack build job.
@@ -5394,7 +5394,7 @@ paths:
                 - environemnts
         - $ref: '#/components/parameters/SortParam'
         - $ref: '#/components/parameters/FilterParam'
-      summary: List SDNs.
+      summary: List SDNs
       description: Requires the `sdn-networks-view` capability.
       responses:
         '200':
@@ -5440,7 +5440,7 @@ paths:
       tags:
         - SDN
       parameters: []
-      summary: Create SDN.
+      summary: Create SDN
       description: Requires the `sdn-networks-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/CreateSDNRequest'
@@ -5491,7 +5491,7 @@ paths:
           description: The ID of the network.
           schema:
             type: string
-      summary: Fetch SDN.
+      summary: Fetch SDN
       description: Requires the `sdn-networks-view` capability.
       responses:
         '200':
@@ -5539,7 +5539,7 @@ paths:
           description: The ID of the network.
           schema:
             type: string
-      summary: Update SDN.
+      summary: Update SDN
       description: Requires the `sdn-networks-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/UpdateSDNRequest'
@@ -5589,7 +5589,7 @@ paths:
           description: The ID of the network.
           schema:
             type: string
-      summary: Delete SDN.
+      summary: Delete SDN
       description: Requires the `sdn-networks-manage` capability.
       responses:
         '200':
@@ -5637,7 +5637,7 @@ paths:
           description: The ID of the network.
           schema:
             type: string
-      summary: Create SDN Job.
+      summary: Create SDN Job
       description: Requires the `sdn-networks-manage` capability.
       requestBody:
         description: Parameters for creating a new sdn job.
@@ -5745,7 +5745,7 @@ paths:
       tags:
         - Pipelines
       parameters: []
-      summary: Create Pipeline.
+      summary: Create Pipeline
       description: Requires the `pipelines-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/CreatePipelineRequest'
@@ -5942,7 +5942,7 @@ paths:
           description: The ID of the pipeline.
           schema:
             type: string
-      summary: Create Pipeline Job.
+      summary: Create Pipeline Job
       description: Requires the `pipelines-manage` capability.
       requestBody:
         description: Parameters for creating a new pipeline job.
@@ -5998,7 +5998,7 @@ paths:
             type: string
         - $ref: '#/components/parameters/SortParam'
         - $ref: '#/components/parameters/FilterParam'
-      summary: List Trigger Keys.
+      summary: List Trigger Keys
       description: Requires the `pipelines-manage` capability.
       responses:
         '200':
@@ -6048,7 +6048,7 @@ paths:
           description: The ID of the pipeline.
           schema:
             type: string
-      summary: Create Trigger Key.
+      summary: Create Trigger Key
       description: Requires the `pipelines-manage` capability.
       requestBody:
         $ref: '#/components/requestBodies/CreateTriggerKeyRequest'
@@ -6105,7 +6105,7 @@ paths:
           description: The ID of the trigger key.
           schema:
             type: string
-      summary: Fetch Trigger Key.
+      summary: Fetch Trigger Key
       description: Requires the `pipelines-manage` capability.
       responses:
         '200':
@@ -6159,7 +6159,7 @@ paths:
           description: The ID of the trigger key.
           schema:
             type: string
-      summary: Update Trigger Key.
+      summary: Update Trigger Key
       description: Requires the `pipelines-manage` capability.
       responses:
         '200':
@@ -6200,7 +6200,7 @@ paths:
       tags:
         - WebsocketAuth
       parameters: []
-      summary: Hub Notification Pipeline Auth.
+      summary: Hub Notification Pipeline Auth
       description: Requires the `hubs-notifications-listen` capability.
       responses:
         '200':
@@ -6254,7 +6254,7 @@ paths:
           description: The ID of the instance.
           schema:
             type: string
-      summary: Instance Console Auth.
+      summary: Instance Console Auth
       description: Requires the `contaiers-console` capability.
       responses:
         '200':
@@ -6308,7 +6308,7 @@ paths:
           description: The ID of the instance.
           schema:
             type: string
-      summary: Instance Telemetry Auth.
+      summary: Instance Telemetry Auth
       description: Requires the `containers-view` capability.
       responses:
         '200':
