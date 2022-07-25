@@ -14,7 +14,7 @@ module.exports = {
   organizationName: "cycleplatform", // Usually your GitHub org/user name.
   projectName: "docs-portal", // Usually your repo name.
   // themes: ["@saucelabs/theme-github-codeblock"],
-  themes: ["@docusaurus/theme-search-algolia"],
+  // themes: ["@docusaurus/theme-search-algolia"],
   themeConfig: {
     // defaultMode: "dark",
     // respectPrefersColorScheme: false,
