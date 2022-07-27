@@ -5,6 +5,10 @@
  * and scoped locally.
  */
 
+html {
+  height: 100%;
+}
+
 .hero__subtitle {
   color: var(--cycle-white) !important;
 }
@@ -25,6 +29,7 @@
   margin: 2rem;
   display: flex;
   justify-content: center;
+  height: 100%;
 }
 
 .heroImageDiv {
