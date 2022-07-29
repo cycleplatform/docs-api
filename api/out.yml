@@ -3763,6 +3763,478 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/infrastructure/providers/native:
+    get:
+      operationId: getNativeProviders
+      tags:
+        - Providers
+      parameters:
+        - name: MetaParam
+          in: query
+          required: false
+          description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - locations
+        - $ref: '#/components/parameters/SortParam'
+        - $ref: '#/components/parameters/FilterParam'
+      summary: List Native Providers
+      description: 'No capability required, public information.'
+      responses:
+        '200':
+          description: Returns a list of natively supported providers.
+          content:
+            application/json:
+              schema:
+                title: ListNativeProvidersReturn
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Native'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  '/v1/infrastructure/providers/{providerId}/servers':
+    get:
+      operationId: getProviderServers
+      tags:
+        - Providers
+      parameters:
+        - name: providerId
+          description: The ID for the given provider.
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/SortParam'
+        - $ref: '#/components/parameters/FilterParam'
+      summary: List Provider Servers
+      description: Requires the `infrastructure-providers-view` capability.
+      responses:
+        '200':
+          description: A list of currently provisioned servers from a provider.
+          content:
+            application/json:
+              schema:
+                title: ListProviderServersReturn
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ProviderServer'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  '/v1/infrastructure/providers/{providerId}/locations':
+    get:
+      operationId: getProviderLocations
+      tags:
+        - Providers
+      parameters:
+        - name: providerId
+          description: The ID for the given provider.
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/SortParam'
+        - $ref: '#/components/parameters/FilterParam'
+      summary: List Provider Locations
+      description: 'No capability required, public information (datacenter locations).'
+      responses:
+        '200':
+          description: Returns a list of provider locations.
+          content:
+            application/json:
+              schema:
+                title: ProviderLocationsReturn
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Location'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/infrastructure/providers:
+    get:
+      operationId: getProviders
+      tags:
+        - Providers
+      parameters:
+        - name: MetaParam
+          in: query
+          required: false
+          description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - node
+                - instances_count
+        - $ref: '#/components/parameters/SortParam'
+        - $ref: '#/components/parameters/FilterParam'
+      summary: List Providers
+      description: Requires the `infrastructure-providers-view` capability.
+      responses:
+        '200':
+          description: A collection of providers.
+          content:
+            application/json:
+              schema:
+                title: ListProvidersReturn
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Provider'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: createProvider
+      tags:
+        - Providers
+      parameters: []
+      summary: Create Provider
+      description: Requires the `infrastructure-providers-manage` capability.
+      requestBody:
+        $ref: '#/components/requestBodies/CreateProviderRequest'
+      responses:
+        '201':
+          description: Returns a provider resource.
+          content:
+            application/json:
+              schema:
+                title: ProviderCreateResponse
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Provider'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  '/v1/infrastructure/providers/{providerId}':
+    get:
+      operationId: getProvider
+      tags:
+        - Providers
+      parameters:
+        - name: providerId
+          description: The ID for the given provider.
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Fetch Provider
+      description: Requires the `infrastructure-providers-view` capability.
+      responses:
+        '200':
+          description: A single provider resource.
+          content:
+            application/json:
+              schema:
+                title: FetchProviderReturn
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Provider'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      operationId: updateProvider
+      tags:
+        - Providers
+      parameters:
+        - name: providerId
+          description: The ID for the given provider.
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Update Provider
+      description: Requires the `infrastructure-providers-manage` capability.
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateProviderRequest'
+      responses:
+        '200':
+          description: Returns a provider resource.
+          content:
+            application/json:
+              schema:
+                title: ProviderUpdateReturn
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Provider'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: removeProvider
+      tags:
+        - Providers
+      parameters:
+        - name: providerId
+          description: The ID for the given provider.
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Remove Provider
+      description: Requires the `infrastructure-providers-manage` capability.
+      responses:
+        '200':
+          description: Returns a task descriptor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/TaskDescriptor'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  '/v1/infrastructure/providers/{providerId}/tasks':
+    post:
+      tags:
+        - Providers
+      operationId: createProviderJob
+      parameters:
+        - name: providerId
+          description: The ID for the given provider.
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Providers Jobs
+      description: Requires the `infrastructure-providers-manage` capability.
+      requestBody:
+        description: Parameters for creating a provider job.
+        content:
+          application/json:
+            schema:
+              title: VerifyProviderAction
+              type: object
+              required:
+                - action
+              properties:
+                action:
+                  type: string
+                  description: The action the job takes.
+                  enum:
+                    - verify
+      responses:
+        '200':
+          description: Returns a task descriptor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/TaskDescriptor'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /v1/infrastructure/servers:
     get:
       operationId: getServersCollection
@@ -6460,6 +6932,46 @@ components:
               disable:
                 type: boolean
                 description: A boolean where true signifies the pipeline is disabled.
+    CreateProviderRequest:
+      description: Parameters for creating a provider.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - integration
+            properties:
+              integration:
+                type: object
+                description: An integration object defining the provider integration assets and endpoints.
+                properties:
+                  native:
+                    type: object
+                    description: Nativly supported IAL provider integration.
+                    required:
+                      - identifier
+                      - auth
+                    properties:
+                      identifier:
+                        type: string
+                        description: An identifier for the provider.
+                      auth:
+                        $ref: '#/components/schemas/IALAuth'
+                  abstraction:
+                    type: object
+                    description: Custom provider information.
+                    required:
+                      - name
+                      - base_url
+                    properties:
+                      name:
+                        type: string
+                        description: A name for the custom provider abstraction.
+                      base_url:
+                        type: string
+                        description: The url to use when making calls to the abstraction for provision events.
+                      auth:
+                        $ref: '#/components/schemas/IALAuth'
     CreateRecordRequest:
       description: Parameters for creating a new DNS record.
       content:
@@ -6887,6 +7399,46 @@ components:
               disable:
                 type: boolean
                 description: A boolean where true signifies the pipeline is disabled.
+    UpdateProviderRequest:
+      description: Parameters for updating a provider.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - integration
+            properties:
+              integration:
+                type: object
+                description: An integration object defining the provider integration assets and endpoints.
+                properties:
+                  native:
+                    type: object
+                    description: Nativly supported IAL provider integration.
+                    required:
+                      - identifier
+                      - auth
+                    properties:
+                      identifier:
+                        type: string
+                        description: An identifier for the provider.
+                      auth:
+                        $ref: '#/components/schemas/IALAuth'
+                  abstraction:
+                    type: object
+                    description: Custom provider information.
+                    required:
+                      - name
+                      - base_url
+                    properties:
+                      name:
+                        type: string
+                        description: A name for the custom provider abstraction.
+                      base_url:
+                        type: string
+                        description: The url to use when making calls to the abstraction for provision events.
+                      auth:
+                        $ref: '#/components/schemas/IALAuth'
     UpdateSDNRequest:
       description: Parameters for updating a network.
       content:
@@ -11433,7 +11985,7 @@ components:
           description: An ID for an associated instance.
         environment_id:
           type: string
-          descritpion: An ID for an associated environment.
+          description: An ID for an associated environment.
         cpu:
           $ref: '#/components/schemas/CPUSnapshot'
         memory:
