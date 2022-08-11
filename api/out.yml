@@ -15,6 +15,241 @@ security:
   - bearerAuth: []
     hubAuth: []
 paths:
+  /v1/account:
+    get:
+      operationId: getAccount
+      security:
+        - bearerAuth: []
+      tags:
+        - Accounts
+      summary: Fetch Account
+      description: Gets the account associated with the authenticated user token.
+      responses:
+        '200':
+          description: Returns an account.
+          content:
+            application/json:
+              schema:
+                title: AccountResponse
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Account'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/account/invites:
+    get:
+      operationId: getAccountInvites
+      security:
+        - bearerAuth: []
+      tags:
+        - Accounts
+      summary: List Account Invites
+      description: Lists invites associated with a given account.
+      responses:
+        '200':
+          description: Returns a list of account invites.
+          content:
+            application/json:
+              schema:
+                title: AccountInvitesResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HubMembership'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  '/v1/account/invites/{inviteId}':
+    get:
+      operationId: updateAccountInvite
+      security:
+        - bearerAuth: []
+      tags:
+        - Accounts
+      parameters:
+        - name: inviteId
+          description: The ID of the given invite.
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Update Account Invite
+      description: Update a given invite.
+      responses:
+        '200':
+          description: Returns an membership resource.
+          content:
+            application/json:
+              schema:
+                title: UpdateAccountInviteResponse
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/HubMembership'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/account/memberships:
+    get:
+      operationId: getAccountMemberships
+      security:
+        - bearerAuth: []
+      tags:
+        - Accounts
+      summary: List Account Memberships
+      description: Lists the memberships for a given account.
+      responses:
+        '200':
+          description: List of membership resources.
+          content:
+            application/json:
+              schema:
+                title: AccountMembershipsResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HubMembership'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/account/logins:
+    get:
+      operationId: getAccountLogins
+      security:
+        - bearerAuth: []
+      tags:
+        - Accounts
+      summary: List Account Logins
+      description: Lists logins associated with a given account.
+      responses:
+        '200':
+          description: Returns a collection of logins.
+          content:
+            application/json:
+              schema:
+                title: AccountLoginsResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      oneOf:
+                        - $ref: '#/components/schemas/EmployeeLogin'
+                        - $ref: '#/components/schemas/PasswordLogin'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /v1/environments:
     get:
       operationId: getEnvironments
@@ -927,7 +1162,7 @@ paths:
           content:
             application/json:
               schema:
-                title: ContainerListResponse
+                title: ListContainersResponse
                 type: object
                 properties:
                   data:
@@ -2935,18 +3170,106 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Attempt'
-  '/v1/hub/{hubId}':
+  /v1/hub:
     get:
-      operationId: getHubById
+      operationId: getHubs
       tags:
         - Hubs
+      security:
+        - bearerAuth: []
+      summary: List Hubs
+      description: Lists all associated hubs.
+      responses:
+        '200':
+          description: Returns a list of hub resources.
+          content:
+            application/json:
+              schema:
+                title: ListHubsResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Hub'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: createHub
+      tags:
+        - Hubs
+      security:
+        - bearerAuth: []
+      parameters: []
+      summary: Create Hub
+      description: Create a hub resource.
+      requestBody:
+        $ref: '#/components/requestBodies/CreateHubRequest'
+      responses:
+        '200':
+          description: Returns a hub resource.
+          content:
+            application/json:
+              schema:
+                title: HubCreateResponse
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Hub'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/hubs/current:
+    get:
+      operationId: getHub
+      tags:
+        - Hubs
+      security:
+        - bearerAuth: []
       parameters:
-        - name: hubId
-          description: The ID of the requested hub.
-          in: path
-          required: true
-          schema:
-            type: string
         - name: MetaParam
           in: query
           required: false
@@ -2998,13 +3321,7 @@ paths:
       operationId: updateHub
       tags:
         - Hubs
-      parameters:
-        - name: hubId
-          description: The ID of the hub.
-          in: path
-          required: true
-          schema:
-            type: string
+      parameters: []
       summary: Update Hub
       description: 'Updates the specified hub, setting the values of the parameters passed.'
       requestBody:
@@ -3020,6 +3337,829 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Hub'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteHub
+      tags:
+        - Hubs
+      security:
+        - bearerAuth: []
+      parameters: []
+      summary: Delete Hub
+      description: Requires the `hubs-delete` capability. This can only be aquired by being the hub owner.
+      responses:
+        '200':
+          description: Returns a task descriptor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/TaskDescriptor'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/hubs/current/activity:
+    get:
+      operationId: getHubActivity
+      tags:
+        - Hubs
+      parameters:
+        - name: IncludeParam
+          in: query
+          required: false
+          description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - creators
+                - images
+                - stack_builds
+                - stacks
+                - environments
+        - $ref: '#/components/parameters/SortParam'
+        - $ref: '#/components/parameters/FilterParam'
+      summary: List Activity
+      description: Doesn't require a specific capability.
+      responses:
+        '200':
+          description: Returns a collection of activity resources.
+          content:
+            application/json:
+              schema:
+                title: ListActivityResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Activity'
+                  includes:
+                    $ref: '#/components/schemas/ActivityIncludes'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/hubs/capabilities:
+    get:
+      operationId: getHubCapabilities
+      tags:
+        - Hubs
+      parameters: []
+      security: []
+      summary: List Hub Capabilities
+      description: Does not require a capability.
+      responses:
+        '200':
+          description: Returns a list of capabilities.
+          content:
+            application/json:
+              schema:
+                title: HubCapabilitiesReturn
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Capabilities'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/hubs/current/usage: {}
+  /v1/hubs/current/tier: {}
+  '/v1/hubs/current/invites/{inviteId}':
+    delete:
+      operationId: deleteHubInvite
+      tags:
+        - Hubs
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: inviteId
+          description: The ID of the hub invite.
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Delete Hub Invite
+      description: Requires the `hub-invites-manage` capability.
+      responses:
+        '200':
+          description: Returns a hub membership resource.
+          content:
+            application/json:
+              schema:
+                title: DeleteHubInviteReturn
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/HubMembership'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/hubs/current/invites:
+    get:
+      operationId: getHubInvites
+      tags:
+        - Hubs
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: MetaParam
+          in: query
+          required: false
+          description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - capabilities
+        - name: IncludeParam
+          in: query
+          required: false
+          description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - senders
+                - hubs
+                - accounts
+        - $ref: '#/components/parameters/SortParam'
+        - $ref: '#/components/parameters/FilterParam'
+      summary: List Hub Invites
+      description: Requires the `hubs-invites-manage` capability.
+      responses:
+        '200':
+          description: Returns a list of membership resources.
+          content:
+            application/json:
+              schema:
+                title: ListHubInvitesReturn
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HubMembership'
+                  includes:
+                    $ref: '#/components/schemas/HubMembership'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: createHubInvite
+      tags:
+        - Hubs
+      parameters: []
+      summary: Create Hub Invite
+      description: Requires the `hubs-invites-send` capability.
+      requestBody:
+        $ref: '#/components/requestBodies/CreateHubInviteRequest'
+      responses:
+        '201':
+          description: Returns a hub membership resource.
+          content:
+            application/json:
+              schema:
+                title: CreateHubInviteReturn
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/HubMembership'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/hubs/current/members:
+    get:
+      operationId: getHubMembers
+      tags:
+        - Hubs
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: MetaParam
+          in: query
+          required: false
+          description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - capabilities
+        - name: IncludeParam
+          in: query
+          required: false
+          description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - senders
+                - hubs
+                - accounts
+        - $ref: '#/components/parameters/SortParam'
+        - $ref: '#/components/parameters/FilterParam'
+      summary: List Hub Memberships
+      description: Requires the `hubs-members-view` capability.
+      responses:
+        '200':
+          description: Returns a list of memebership resources.
+          content:
+            application/json:
+              schema:
+                title: ListHubMembersReturn
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HubMembership'
+                  includes:
+                    $ref: '#/components/schemas/HubMembershipIncludes'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/hubs/current/membership: {}
+  '/v1/hubs/current/members/{memberId}':
+    get:
+      operationId: getHubMember
+      tags:
+        - Hubs
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: memberId
+          description: The ID for the given member.
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: IncludeParam
+          in: query
+          required: false
+          description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - senders
+                - hubs
+                - accounts
+      summary: Fetch Hub Member
+      description: Requires the `hubs-members-view` capability.
+      responses:
+        '200':
+          description: Returns a membership resource.
+          content:
+            application/json:
+              schema:
+                title: FetchHubMemberReturn
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/HubMembership'
+                  includes:
+                    $ref: '#/components/schemas/HubMembershipIncludes'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      operationId: updateHubMember
+      tags:
+        - Hubs
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: memberId
+          description: The ID for the given member.
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateHubMemberRequest'
+      responses:
+        '200':
+          description: Returns a hub membership resource.
+          content:
+            application/json:
+              schema:
+                title: UpdateHubMemberReturn
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/HubMembership'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: removeHubMember
+      tags:
+        - Hubs
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: memberId
+          description: The ID for the given member.
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Remove Hub Member
+      description: Requires the `hubs-members-manage` capability.
+      responses:
+        '200':
+          description: Returns a task descriptor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/TaskDescriptor'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  '/v1/hubs/current/members/account/{accountId}':
+    get:
+      operationId: getHubMembersAccount
+      tags:
+        - Hubs
+      parameters:
+        - name: accountId
+          description: The ID of the member account.
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: MetaParam
+          in: query
+          required: false
+          description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - capabilities
+        - name: IncludeParam
+          in: query
+          required: false
+          description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - senders
+                - hubs
+                - accounts
+      summary: Fetch Members Account
+      description: Requires the `hubs-members-view` capability.
+      responses:
+        '200':
+          description: Returns a membership resource.
+          content:
+            application/json:
+              schema:
+                title: FetchHubMembersAccountReturn
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/HubMembership'
+                  includes:
+                    $ref: '#/components/schemas/HubMembershipIncludes'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/hubs/current/api-keys:
+    get:
+      operationId: getAPIKeys
+      tags:
+        - APIKeys
+      parameters:
+        - $ref: '#/components/parameters/SortParam'
+        - $ref: '#/components/parameters/FilterParam'
+      summary: List API Keys
+      description: Requires the `api-keys-manage` capability.
+      responses:
+        '200':
+          description: Returns a collection of API Key resources.
+          content:
+            application/json:
+              schema:
+                title: ListAPIKeysResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/APIKey'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: createAPIKey
+      tags:
+        - APIKeys
+      parameters: []
+      summary: Create API Key
+      description: Requires the `api-keys-manage` capability.
+      requestBody:
+        $ref: '#/components/requestBodies/CreateAPIKeyRequest'
+      responses:
+        '201':
+          description: Returns an API Key resource.
+          content:
+            application/json:
+              schema:
+                title: CreateAPIKeyResponse
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/APIKey'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  '/v1/hubs/current/api-keys/{apikeyId}':
+    get:
+      operationId: getAPIKey
+      tags:
+        - APIKeys
+      parameters:
+        - name: apikeyId
+          description: The ID of the API Key.
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Fetch API Key
+      description: Requries the `api-keys-manage` capability.
+      responses:
+        '200':
+          description: Returns an API Key resource.
+          content:
+            application/json:
+              schema:
+                title: FetchAPIKeyResponse
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/APIKey'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      operationId: updateAPIKey
+      tags:
+        - APIKeys
+      parameters:
+        - name: apikeyId
+          description: The ID of the API Key.
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Update API Key
+      description: Requires the `api-keys-manage` capability.
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateAPIKeyRequest'
+      responses:
+        '200':
+          description: Returns and API Key resource.
+          content:
+            application/json:
+              schema:
+                title: UpdateAPIKeyReturn
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/APIKey'
         '400':
           description: This usually means the data sent was in an invalid format.
           content:
@@ -3124,7 +4264,7 @@ paths:
       summary: Create Image
       description: Requires the `images-import` capability.
       requestBody:
-        $ref: '#/components/requestBodies/ImageCreateRequest'
+        $ref: '#/components/schemas/ImageCreateRequest'
       responses:
         '201':
           description: Returns an image resource.
@@ -3518,7 +4658,7 @@ paths:
       summary: Create Source
       description: requires the `images-import` capability.
       requestBody:
-        $ref: '#/components/requestBodies/SourceCreateRequest'
+        $ref: '#/components/schemas/SourceCreateRequest'
       responses:
         '201':
           description: Returns an image source resource.
@@ -5641,7 +6781,7 @@ paths:
       summary: Create Stack Build
       description: Requires the `stacks-manage` capability.
       requestBody:
-        $ref: '#/components/requestBodies/CreateStackBuildRequest'
+        $ref: '#/components/schemas/CreateStackBuildRequest'
       responses:
         '201':
           description: Returns a stack build resource.
@@ -6843,6 +7983,26 @@ components:
       schema:
         type: string
   requestBodies:
+    CreateAPIKeyRequest:
+      description: Parameters for creating an API Key.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: A name given to the API Key.
+              permissions:
+                $ref: '#/components/schemas/Permissions'
+              capabilities:
+                $ref: '#/components/schemas/Capabilities'
+              ips:
+                type: array
+                nullable: true
+                description: An array of approved IPs from which this API Key can be used.
+                items:
+                  type: string
     CreateContainer:
       description: Parameters for creating a new container.
       content:
@@ -6912,6 +8072,46 @@ components:
                     $ref: '#/components/schemas/ID'
                   build_id:
                     $ref: '#/components/schemas/ID'
+    CreateHubInviteRequest:
+      description: Parameters for creating a hub invite.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              recipient:
+                type: string
+                description: The email address of the invitee.
+              role:
+                type: string
+                description: The account role.
+                enum:
+                  - owner
+                  - admin
+                  - developer
+                  - analyst
+    CreateHubRequest:
+      description: Parameters for creating a hub.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: A name for the hub.
+              integrations:
+                $ref: '#/components/schemas/HubIntegrations'
+              webhooks:
+                type: object
+                description: All hub webhooks for the given hub.
+                required:
+                  - server_deployed
+                properties:
+                  server_deployed:
+                    nullable: true
+                    type: string
+                    description: A webhook to report information to each time a server is deployed on the given hub.
     CreatePipelineRequest:
       description: Parameters for creating a new pipeline.
       content:
@@ -7063,48 +8263,6 @@ components:
                     cluster:
                       type: string
                       description: The existing or new cluster this infrastructure should be provisioned in.
-    CreateStackBuildRequest:
-      description: Parameters for creating a new stack build.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              about:
-                type: object
-                description: Information about the stack build.
-                required:
-                  - version
-                  - description
-                properties:
-                  version:
-                    type: string
-                    description: A user defined version of the build.
-                  description:
-                    type: string
-                    description: A user defined description for the build.
-                  git_commit:
-                    $ref: '#/components/schemas/StackGitCommit'
-              instructions:
-                type: object
-                description: Git information on where to pull stack resources from.
-                properties:
-                  git:
-                    type: object
-                    description: Git information specifics.
-                    required:
-                      - type
-                      - value
-                    properties:
-                      type:
-                        type: string
-                        description: The type of information the user is passing.
-                        enum:
-                          - hash
-                          - tag
-                      value:
-                        type: string
-                        description: The actual value to be passed.
     CreateStackRequest:
       description: Parameters for creating a new stack.
       content:
@@ -7172,30 +8330,6 @@ components:
                   high_availability:
                     type: boolean
                     description: A boolean where `true` represents the desire to run the environment discovery service in high availability mode.
-    ImageCreateRequest:
-      description: Parameters for creating a new image.
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - source_id
-            properties:
-              name:
-                type: string
-                description: A name for the image.
-              source_id:
-                type: string
-                description: The ID for the image source to be used.
-              override:
-                type: object
-                description: An override object to be used for a single image create request.
-                required:
-                  - target
-                properties:
-                  target:
-                    type: string
-                    description: A target to be used for overridding the default target.
     ImageUpdateRequest:
       description: Parameters for creating a new image.
       content:
@@ -7257,43 +8391,6 @@ components:
                   high_availability:
                     type: boolean
                     description: A boolean where `true` represents the desire to run the environment load balancer service in high availability mode.
-    SourceCreateRequest:
-      description: Parameters for creating an image source.
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - type
-              - origin
-            properties:
-              name:
-                type: string
-                description: A name for the image source.
-              type:
-                type: string
-                description: A value identifiying the type of image.
-                enum:
-                  - stack_build
-                  - direct
-              origin:
-                type: object
-                description: The origin of the given image source.
-                oneOf:
-                  - $ref: '#/components/schemas/DockerHubSource'
-                  - $ref: '#/components/schemas/DockerfileRepoSource'
-                  - $ref: '#/components/schemas/DockerfileTarSource'
-                  - $ref: '#/components/schemas/DockerRegistrySource'
-              about:
-                type: object
-                description: User defined information about the image source.
-                required:
-                  - description
-                properties:
-                  description:
-                    type: string
-                    nullable: true
-                    description: A description of the image source.
     SourceUpdateRequest:
       description: Parameters for updating an image source.
       content:
@@ -7322,6 +8419,26 @@ components:
                     type: string
                     nullable: true
                     description: A description of the image source.
+    UpdateAPIKeyRequest:
+      description: Parameters for updating an API Key.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: A name given to the API Key.
+              permissions:
+                $ref: '#/components/schemas/Permissions'
+              capabilities:
+                $ref: '#/components/schemas/Capabilities'
+              ips:
+                type: array
+                nullable: true
+                description: An array of approved IPs from which this API Key can be used.
+                items:
+                  type: string
     UpdateContainer:
       description: Parameters for updating a container.
       content:
@@ -7359,6 +8476,23 @@ components:
                 type: string
               about:
                 $ref: '#/components/schemas/About'
+    UpdateHubMemberRequest:
+      description: Parameters for updating a hub membership.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              role:
+                type: string
+                description: The account role.
+                enum:
+                  - owner
+                  - admin
+                  - developer
+                  - analyst
+              permissions:
+                $ref: '#/components/schemas/Permissions'
     UpdateHubRequest:
       description: Parameters for updating a hub.
       content:
@@ -7558,6 +8692,117 @@ components:
               value:
                 $ref: '#/components/schemas/VPNUsers'
   schemas:
+    APIKey:
+      title: APIKey
+      description: An API key resource
+      type: object
+      required:
+        - id
+        - hub_id
+        - name
+        - creator
+        - secret
+        - permissions
+        - capabilities
+        - ips
+        - state
+        - events
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+        name:
+          type: string
+          description: A name for the API key.
+        creator:
+          $ref: '#/components/schemas/Creator'
+        secret:
+          type: string
+          description: The API key secret.
+        permissions:
+          type: object
+          description: Information about this members permissions for a given resource.
+          required:
+            - all_environments
+            - environments
+          properties:
+            all_environments:
+              type: boolean
+              description: A boolean where true represents the member has access to view and manage all environments for the resource.
+            environments:
+              description: An array of environments this resource has access to.
+              type: array
+              items:
+                type: object
+                description: Environment resource resources.
+                required:
+                  - id
+                  - manage
+                properties:
+                  id:
+                    $ref: '#/components/schemas/ID'
+                  manage:
+                    type: boolean
+                    description: A boolean where true represents this environment can be managed by the resource (i.e. its not just read-only).
+        capabilities:
+          type: object
+          description: An object holding information about the capabilities of this API key.
+          required:
+            - all
+            - specific
+          properties:
+            all:
+              type: boolean
+              description: A boolean where true represents this key has all available capabilities.
+            specific:
+              description: An array a capabilities this key has.
+              type: array
+              items:
+                $ref: '#/components/schemas/Capabilities'
+        ips:
+          type: array
+          description: An array of IP's this API key can make calls from.
+          items:
+            type: string
+          nullable: true
+        state:
+          $ref: '#/components/schemas/APIKeyState'
+        events:
+          title: HubEvents
+          type: object
+          description: A collection of timestamps for each event in the hub's lifetime.
+          required:
+            - created
+            - updated
+            - deleted
+          properties:
+            created:
+              description: The timestamp of when the hub was created.
+              $ref: '#/components/schemas/DateTime'
+            updated:
+              description: The timestamp of when the hub was updated.
+              $ref: '#/components/schemas/DateTime'
+            deleted:
+              description: The timestamp of when the hub was deleted.
+              $ref: '#/components/schemas/DateTime'
+    APIKeyState:
+      title: APIKeyState
+      allOf:
+        - required:
+            - current
+          properties:
+            current:
+              description: The current state of the API key.
+              type: string
+              enum:
+                - new
+                - configuring
+                - live
+                - inactive
+                - deleting
+                - deleted
+        - $ref: '#/components/schemas/State'
     About:
       title: About
       type: object
@@ -7588,6 +8833,351 @@ components:
           description: 'The base url, where the abstraction endpoints are located.'
         auth:
           $ref: '#/components/schemas/IALAuth'
+    Account:
+      title: Account
+      type: object
+      description: An object representing information about the currently logged-in user.
+      required:
+        - id
+        - name
+        - email
+        - allow_support_logins
+        - state
+        - events
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        name:
+          type: object
+          description: The first and last name associated with the account.
+          required:
+            - first
+            - last
+          properties:
+            first:
+              type: string
+              description: The first name of the account owner.
+            last:
+              type: string
+              description: The last name of the account owner.
+        email:
+          type: object
+          description: Information about the email address associated with the account.
+          required:
+            - address
+            - verified
+            - added
+          properties:
+            address:
+              type: string
+              description: The email address.
+            verified:
+              type: boolean
+              description: 'If true, the email has been verified and the account is active.'
+            added:
+              description: The date the email was added to the account
+              $ref: '#/components/schemas/DateTime'
+        two_factor_auth:
+          type: object
+          nullable: true
+          description: Two factor auth verification information.
+          required:
+            - verified
+          properties:
+            verified:
+              type: boolean
+              description: A boolean representing if the account has verified with TwoFA.
+        allow_support_login:
+          description: Indicates whether or not Cycle employees have authorization to log in to this account in a support capacity.
+          type: boolean
+        state:
+          $ref: '#/components/schemas/AccountState'
+        events:
+          title: AccountEvents
+          type: object
+          description: A collection of timestamps for each event in the account's lifetime.
+          required:
+            - created
+            - updated
+            - deleted
+            - last_login
+          properties:
+            created:
+              description: The timestamp of when the image was created.
+              $ref: '#/components/schemas/DateTime'
+            updated:
+              description: The timestamp of when the image was updated.
+              $ref: '#/components/schemas/DateTime'
+            deleted:
+              description: The timestamp of when the image was deleted.
+              $ref: '#/components/schemas/DateTime'
+            last_login:
+              description: The timestamp of when the account was last accessed.
+              $ref: '#/components/schemas/DateTime'
+    AccountInfo:
+      title: AccountInfo
+      type: object
+      description: Information about a given account.
+      required:
+        - id
+        - ip
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        ip:
+          type: string
+          description: The IP of the computer used during login.
+    AccountState:
+      title: AccountState
+      allOf:
+        - required:
+            - current
+          properties:
+            current:
+              description: The current state of the account.
+              type: string
+              enum:
+                - new
+                - live
+                - suspending
+                - purging
+                - deleting
+                - deleted
+        - $ref: '#/components/schemas/State'
+    Activity:
+      title: Activity
+      type: object
+      description: An resource representing information about activity taking place on a given hub.
+      required:
+        - id
+        - hub_id
+        - user
+        - verbosity
+        - context
+        - session
+        - changes
+        - annotations
+        - error
+        - component
+        - status
+        - event
+        - time
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+        user:
+          type: object
+          description: Userscope
+          required:
+            - type
+            - id
+          properties:
+            type:
+              type: string
+              description: The type of user.
+              enum:
+                - account
+                - environment
+                - platform
+                - platform-pipeline
+                - employee
+                - api-key
+                - visitor
+            id:
+              type: string
+              description: The given users ID.
+        verbosity:
+          type: integer
+          description: A number representing how verbose the acitivty reporting is for a given hub.
+        context:
+          $ref: '#/components/schemas/Context'
+        session:
+          $ref: '#/components/schemas/Session'
+        changes:
+          type: array
+          description: An array of changes.
+          items:
+            $ref: '#/components/schemas/Change'
+        annotations:
+          type: object
+          description: A record of additional annotations for the activity.
+          additionalProperties:
+            type: string
+        error:
+          type: object
+          description: An object describing a given activity error.
+          nullable: true
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              description: The error message.
+        component:
+          type: object
+          description: An object holding information about a component.
+          nullable: true
+          required:
+            - id
+            - type
+          properties:
+            id:
+              $ref: '#/components/schemas/ID'
+            type:
+              type: string
+              description: The type of component.
+        status:
+          type: string
+          description: A status for the given activity.
+          enum:
+            - info
+            - warning
+            - request
+            - success
+            - error
+        event:
+          type: string
+          description: The activity event.
+          enum:
+            - hub.task.delete
+            - hub.update
+            - hub.create
+            - hub.images.prune
+            - hub.task.images.prune
+            - environment.initialize
+            - environment.start
+            - environment.stop
+            - environment.task.start
+            - environment.task.stop
+            - environment.task.initialize
+            - environment.delete
+            - environment.task.delete
+            - environment.update
+            - environment.create
+            - environment.services.discovery.task.reconfigure
+            - environment.services.lb.task.reconfigure
+            - environment.services.vpn.task.reconfigure
+            - image.import
+            - image.task.import
+            - image.update
+            - image.create
+            - image.delete
+            - image.task.delete
+            - image.source.create
+            - image.source.update
+            - image.source.task.delete
+            - container.create
+            - container.update
+            - container.initialize
+            - container.start
+            - container.task.start
+            - container.stop
+            - container.task.stop
+            - container.reconfigure
+            - container.task.reconfigure
+            - container.reconfigure.volumes
+            - container.task.reconfigure.volumes
+            - container.reimage
+            - container.task.reimage
+            - container.scale
+            - container.task.scale
+            - container.delete
+            - container.task.delete
+            - container.instance.error
+            - container.instance.sftp.login
+            - container.instance.migration.start
+            - container.instance.migration.revert
+            - container.instance.delete
+            - container.instances.delete
+            - container.instances.create
+            - container.instance.healthcheck.restarted
+            - container.backup.create
+            - container.backup.restore
+            - container.backup.task.restore
+            - container.backup.delete
+            - container.backup.task.delete
+            - dns.zone.task.verify
+            - dns.zone.task.delete
+            - dns.zone.update
+            - dns.zone.create
+            - dns.zone.verify
+            - dns.zone.delete
+            - dns.zone.record.cert.generate.auto
+            - dns.zone.record.cert.generate
+            - dns.zone.record.delete
+            - dns.zone.record.update
+            - dns.zone.record.create
+            - dns.zone.record.task.delete
+            - dns.zone.record.task.cert.generate
+            - stack.task.delete
+            - stack.update
+            - stack.create
+            - stack.task.prune
+            - stack.build.create
+            - stack.build.generate
+            - stack.build.deploy
+            - stack.build.delete
+            - stack.build.task.generate
+            - stack.build.task.delete
+            - infrastructure.server.task.delete
+            - infrastructure.server.task.restart
+            - infrastructure.server.task.provision
+            - infrastructure.server.update
+            - infrastructure.server.delete
+            - infrastructure.server.restart
+            - infrastructure.server.compute.restart
+            - infrastructure.server.provision
+            - infrastructure.server.live
+            - infrastructure.server.services.sftp.lockdown.auto
+            - infrastructure.server.reconfigure.features
+            - infrastructure.server.task.reconfigure.features
+            - infrastructure.provider.create
+            - infrastructure.provider.update
+            - infrastructure.provider.delete
+            - sdn.network.task.delete
+            - sdn.network.update
+            - sdn.network.create
+            - sdn.network.task.reconfigure
+            - infrastructure.ips.pool.task.delete
+            - billing.order.task.confirm
+            - billing.order.confirm
+            - billing.invoice.task.void
+            - billing.invoice.task.credit
+            - billing.invoice.task.refund
+            - billing.invoice.task.pay
+            - billing.invoice.pay
+            - billing.method.update
+            - billing.method.create
+            - billing.method.delete
+            - billing.method.task.delete
+            - hub.apikey.create
+            - hub.apikey.update
+            - hub.apikey.delete
+            - hub.membership.create
+            - hub.membership.delete
+            - pipeline.update
+            - pipeline.task.delete
+            - pipeline.delete
+            - pipeline.create
+            - pipeline.task.trigger
+            - pipeline.trigger
+            - pipeline.key.update
+            - pipeline.key.delete
+            - pipeline.key.create
+        time:
+          description: A timestamp for when the activity took place.
+          $ref: '#/components/schemas/DateTime'
+    ActivityIncludes:
+      title: ActivityIncludes
+      description: All includable resources linkable to the given records.
+      type: object
+      properties:
+        creators:
+          $ref: '#/components/schemas/CreatorInclude'
+        components:
+          $ref: '#/components/schemas/ComponentsIncludes'
     ApiKey:
       title: ApiKey
       description: An extended resource that has information on a Cycle hub API key
@@ -7897,6 +9487,73 @@ components:
           description: Extra information about the CPU if there is any.
           additionalProperties:
             type: string
+    Capabilities:
+      type: string
+      description: A capability that a user or API key that represents what an API key or a user can do.
+      enum:
+        - hubs-update
+        - hubs-delete
+        - hubs-invites-send
+        - hubs-invites-manage
+        - hubs-members-manage
+        - hubs-members-view
+        - hubs-notifications-listen
+        - billing-methods-manage
+        - billing-invoices-view
+        - billing-invoices-pay
+        - billing-orders-manage
+        - billing-services-view
+        - billing-credits-view
+        - sdn-networks-view
+        - sdn-networks-manage
+        - pipelines-manage
+        - pipelines-view
+        - pipelines-trigger
+        - environments-create
+        - environments-delete
+        - environments-view
+        - environments-update
+        - environments-state
+        - environments-services-manage
+        - environments-vpn
+        - environments-vpn-manage
+        - containers-deploy
+        - containers-view
+        - containers-console
+        - containers-ssh
+        - containers-update
+        - containers-delete
+        - containers-state
+        - containers-volumes-manage
+        - containers-volumes-view
+        - containers-instances-migrate
+        - containers-backups-manage
+        - containers-backups-view
+        - stacks-manage
+        - stacks-view
+        - stacks-builds-manage
+        - stacks-builds-deploy
+        - images-view
+        - images-import
+        - images-update
+        - images-delete
+        - images-build
+        - images-sources-view
+        - images-sources-manage
+        - jobs-view
+        - api-keys-manage
+        - ips-manage
+        - servers-provision
+        - servers-view
+        - servers-update
+        - servers-login
+        - servers-state
+        - servers-decommission
+        - infrastructure-providers-manage
+        - infrastructure-providers-view
+        - usage-view
+        - dns-view
+        - dns-manage"
     Certificate:
       title: DNSRecordCertificate
       type: object
@@ -7914,6 +9571,42 @@ components:
         wildcard_child:
           type: boolean
           description: A value where true represents that the certificate is using a shared wildcard cert.
+    Change:
+      title: ActivityChange
+      type: object
+      description: An object with information of details for before and after a resource changed.
+      required:
+        - component
+      properties:
+        component:
+          type: string
+          description: A description of the resource that was changed.
+        before:
+          $ref: '#/components/schemas/Detail'
+        after:
+          $ref: '#/components/schemas/Detail'
+    ComponentsIncludes:
+      title: ComponentIncludes
+      type: object
+      description: A resource thats assocaited with activity.
+      additionalProperties:
+        oneOf:
+          - $ref: '#/components/schemas/Container'
+          - $ref: '#/components/schemas/Instance'
+          - $ref: '#/components/schemas/Environment'
+          - $ref: '#/components/schemas/Image'
+          - $ref: '#/components/schemas/Server'
+          - $ref: '#/components/schemas/Pool'
+          - $ref: '#/components/schemas/Stack'
+          - $ref: '#/components/schemas/StackBuild'
+          - $ref: '#/components/schemas/Zone'
+          - $ref: '#/components/schemas/Record'
+          - $ref: '#/components/schemas/APIKey'
+          - $ref: '#/components/schemas/Provider'
+          - $ref: '#/components/schemas/SDNNetwork'
+          - $ref: '#/components/schemas/HubMembership'
+          - $ref: '#/components/schemas/Pipeline'
+          - $ref: '#/components/schemas/TriggerKey'
     Config:
       title: ContainerConfig
       description: A container configuration.
@@ -8296,6 +9989,71 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IP'
+    Context:
+      title: ActivityContext
+      type: object
+      description: ID context for resources associated with an activity.
+      properties:
+        environment_id:
+          type: string
+          description: An ID for the given resource.
+        container_id:
+          type: string
+          description: An ID for the given resource.
+        instance_id:
+          type: string
+          description: An ID for the given resource.
+        server_id:
+          type: string
+          description: An ID for the given resource.
+        stack_id:
+          type: string
+          description: An ID for the given resource.
+        dns_zone_id:
+          type: string
+          description: An ID for the given resource.
+    CreateStackBuildRequest:
+      description: Parameters for creating a new stack build.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              about:
+                type: object
+                description: Information about the stack build.
+                required:
+                  - version
+                  - description
+                properties:
+                  version:
+                    type: string
+                    description: A user defined version of the build.
+                  description:
+                    type: string
+                    description: A user defined description for the build.
+                  git_commit:
+                    $ref: '#/components/schemas/StackGitCommit'
+              instructions:
+                type: object
+                description: Git information on where to pull stack resources from.
+                properties:
+                  git:
+                    type: object
+                    description: Git information specifics.
+                    required:
+                      - type
+                      - value
+                    properties:
+                      type:
+                        type: string
+                        description: The type of information the user is passing.
+                        enum:
+                          - hash
+                          - tag
+                      value:
+                        type: string
+                        description: The actual value to be passed.
     Creator:
       title: Creator
       description: A creator object. Describes who created the resource.
@@ -8482,6 +10240,19 @@ components:
         description:
           type: string
           description: A description for the deployment strategy.
+    Detail:
+      title: ActivityDetail
+      type: object
+      description: Details about a given event that is part of an activity.
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        number:
+          type: integer
+          description: A number describing the amount of the resource that exists.
+        string:
+          type: string
+          description: Additional information.
     DiscoveryEnvironmentService:
       title: DiscoveryEnvironmentService
       type: object
@@ -8590,6 +10361,13 @@ components:
           description: The path to the Dockerfile to be used for buiding the image.
         credentials:
           $ref: '#/components/schemas/DockerfileCredentials'
+    EmployeeLogin:
+      title: AccountEmployeeLogin
+      type: object
+      description: A login event where the authentication mechanism was an employee login.
+      allOf:
+        - $ref: '#/components/schemas/Account'
+        - $ref: '#/components/schemas/Login'
     Environment:
       title: Environment
       type: object
@@ -9249,10 +11027,41 @@ components:
             employee_id:
               type: string
               description: The ID of the employee this membership is associated with.
+        meta:
+          $ref: '#/components/schemas/HubMembershipMeta'
+    HubMembershipIncludes:
+      title: HubMembershipsIncludes
+      type: object
+      description: A resource thats associated with a hub membershp.
+      additionalProperties:
+        senders:
+          type: object
+          description: A record with an ID mapped to a public account for the account that sent this memberships initial invite.
+          additionalProperties:
+            $ref: '#/components/schemas/PublicAccount'
+        hubs:
+          type: object
+          description: A record with an ID mapped to a hub resource.
+          additionalProperties:
+            $ref: '#/components/schemas/Hub'
+        accounts:
+          type: object
+          description: A record with an ID mapped to a public account.
+          additionalProperties:
+            $ref: '#/components/schemas/PublicAccount'
+    HubMembershipMeta:
+      title: HubMembershipMeta
+      type: object
+      description: A list of meta fields that can be applied to a membership.
+      properties:
+        capabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Capabilities'
     HubMeta:
       title: HubsMeta
       type: object
-      description: A list of meat fields that can be applied to a container.
+      description: A list of meta fields that can be applied to a hub.
       properties:
         membership:
           $ref: '#/components/schemas/HubMembership'
@@ -9589,6 +11398,30 @@ components:
               $ref: '#/components/schemas/DateTime'
         meta:
           $ref: '#/components/schemas/ImageMeta'
+    ImageCreateRequest:
+      description: Parameters for creating a new image.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - source_id
+            properties:
+              name:
+                type: string
+                description: A name for the image.
+              source_id:
+                type: string
+                description: The ID for the image source to be used.
+              override:
+                type: object
+                description: An override object to be used for a single image create request.
+                required:
+                  - target
+                properties:
+                  target:
+                    type: string
+                    description: A target to be used for overridding the default target.
     ImageIncludes:
       title: ImageIncludes
       description: All includable resources linkable to the given image.
@@ -10620,6 +12453,33 @@ components:
       type: object
       additionalProperties:
         $ref: '#/components/schemas/Location'
+    Login:
+      title: BaseLogin
+      type: object
+      description: A login event resource.
+      required:
+        - id
+        - account
+        - time
+        - type
+        - success
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        account:
+          $ref: '#/components/schemas/AccountInfo'
+        time:
+          description: A timestamp of the time the login occurred.
+          $ref: '#/components/schemas/DateTime'
+        type:
+          type: string
+          description: The type of login mechanism used.
+          enum:
+            - password
+            - employee
+        success:
+          type: boolean
+          description: A boolean where true reflects that the login was successful.
     Logs:
       title: BackupLogs
       type: object
@@ -10899,6 +12759,32 @@ components:
         hostname:
           type: string
           description: The hostname as set by the given server's OS.
+    PasswordLogin:
+      title: AccountPasswordLogin
+      type: object
+      description: A login event where the account password was the authentication type.
+      required:
+        - id
+        - account
+        - time
+        - type
+        - success
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        account:
+          $ref: '#/components/schemas/AccountInfo'
+        time:
+          description: A timestamp of the time the login occurred.
+          $ref: '#/components/schemas/DateTime'
+        type:
+          type: string
+          description: The type of login mechanism used.
+          enum:
+            - password
+        success:
+          type: boolean
+          description: A boolean where true reflects that the login was successful.
     Permissions:
       title: Permissions
       description: Permissions information for an API Key
@@ -10957,7 +12843,7 @@ components:
       title: PipelineImageCreate
       allOf:
         - $ref: '#/components/schemas/ResourceLocation'
-        - $ref: '#/components/requestBodies/ImageCreateRequest'
+        - $ref: '#/components/schemas/ImageCreateRequest'
     PipeImageImport:
       title: PipelineImageImport
       allOf:
@@ -10967,7 +12853,7 @@ components:
       title: PipelineImageSourceCreate
       allOf:
         - $ref: '#/components/schemas/ResourceLocation'
-        - $ref: '#/components/requestBodies/SourceCreateRequest'
+        - $ref: '#/components/schemas/SourceCreateRequest'
     PipeSleep:
       title: PipelineSleep
       type: object
@@ -10982,7 +12868,7 @@ components:
       title: PipelineStackBuildCreate
       allOf:
         - $ref: '#/components/schemas/ResourceLocation'
-        - $ref: '#/components/requestBodies/CreateStackBuildRequest'
+        - $ref: '#/components/schemas/CreateStackBuildRequest'
     PipeStackBuildDeploy:
       title: PipelineStackBuildDeploy
       allOf:
@@ -12669,6 +14555,63 @@ components:
         hostname:
           type: string
           description: The server hostname.
+    Session:
+      title: ActivitySession
+      type: object
+      description: Session info about the activity entry.
+      nullable: true
+      required:
+        - url
+        - ip
+        - api_key
+      properties:
+        url:
+          type: string
+          description: URL endpoint assocaited with the activity context - does not include domain.
+        ip:
+          type: string
+          description: The IP of the account associated with the session.
+        api_key:
+          type: string
+          description: The API key ID.
+          nullable: true
+    SourceCreateRequest:
+      description: Parameters for creating an image source.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - type
+              - origin
+            properties:
+              name:
+                type: string
+                description: A name for the image source.
+              type:
+                type: string
+                description: A value identifiying the type of image.
+                enum:
+                  - stack_build
+                  - direct
+              origin:
+                type: object
+                description: The origin of the given image source.
+                oneOf:
+                  - $ref: '#/components/schemas/DockerHubSource'
+                  - $ref: '#/components/schemas/DockerfileRepoSource'
+                  - $ref: '#/components/schemas/DockerfileTarSource'
+                  - $ref: '#/components/schemas/DockerRegistrySource'
+              about:
+                type: object
+                description: User defined information about the image source.
+                required:
+                  - description
+                properties:
+                  description:
+                    type: string
+                    nullable: true
+                    description: A description of the image source.
     SourceIncludes:
       title: SourceIncludes
       description: A resource associate with an image source.
