@@ -250,13 +250,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/billing/orders: {}
+  '/v1/billing/orders/{orderId}': {}
+  '/v1/billing/orders/{orderId}/tasks': {}
+  /v1/billing/plans/support: {}
+  /v1/billing/plans/tiers: {}
+  /v1/billing/methods: {}
+  '/v1/billing/methods/{methodId}': {}
+  /v1/billing/invoices: {}
+  '/v1/billing/invoices/{invoiceId}': {}
+  '/v1/billing/invoices/{invoiceId}/tasks': {}
+  /v1/billing/services: {}
+  '/v1/billing/services/{servicesId}': {}
+  /v1/billing/services/overages: {}
+  /v1/billing/credits: {}
+  '/v1/billing/credits/{creditsId}': {}
   /v1/environments:
     get:
       operationId: getEnvironments
       tags:
         - Environments
       parameters:
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -268,7 +283,7 @@ paths:
                 - containers
                 - containers_count
                 - instances_count
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -381,7 +396,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -393,7 +408,7 @@ paths:
                 - containers
                 - containers_count
                 - instances_count
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -472,6 +487,53 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Environment'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: removeEnvironment
+      tags:
+        - Environments
+      parameters:
+        - name: environmentId
+          description: The ID of the requested environment.
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Remove Environment
+      description: Requires the `environments-update` capability.
+      responses:
+        '200':
+          description: Returns a task descriptor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/TaskDescriptor'
         '400':
           description: This usually means the data sent was in an invalid format.
           content:
@@ -1127,7 +1189,7 @@ paths:
       summary: List Containers
       description: Requires the `containers-view` capability.
       parameters:
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -1140,7 +1202,7 @@ paths:
                 - domain
                 - domains
                 - ips
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -1251,7 +1313,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -1264,7 +1326,7 @@ paths:
                 - domain
                 - domains
                 - ips
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -1343,6 +1405,53 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Container'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: removeContainer
+      tags:
+        - Containers
+      parameters:
+        - name: containerId
+          description: The ID of the requested container.
+          in: path
+          required: true
+          schema:
+            type: string
+      summary: Delete Container
+      description: Requires the `contianers-update` capability.
+      responses:
+        '200':
+          description: Returns a task descriptor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/TaskDescriptor'
         '400':
           description: This usually means the data sent was in an invalid format.
           content:
@@ -1486,7 +1595,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -1658,7 +1767,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -2069,7 +2178,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -2130,7 +2239,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -2141,7 +2250,7 @@ paths:
               enum:
                 - node
                 - instances_count
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -2542,7 +2651,7 @@ paths:
       tags:
         - DNS
       parameters:
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -2699,7 +2808,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -2871,7 +2980,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -3170,7 +3279,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Attempt'
-  /v1/hub:
+  /v1/hubs:
     get:
       operationId: getHubs
       tags:
@@ -3270,7 +3379,13 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: MetaParam
+        - name: hubId
+          description: The ID of the requested hub.
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -3410,7 +3525,7 @@ paths:
       tags:
         - Hubs
       parameters:
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -3574,7 +3689,7 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -3584,7 +3699,7 @@ paths:
               type: string
               enum:
                 - capabilities
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -3691,7 +3806,7 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -3701,7 +3816,7 @@ paths:
               type: string
               enum:
                 - capabilities
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -3771,7 +3886,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -3933,7 +4048,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -3943,7 +4058,7 @@ paths:
               type: string
               enum:
                 - capabilities
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -4192,7 +4307,7 @@ paths:
       summary: List Images
       description: Requires the `images-view` capability.
       parameters:
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -4202,7 +4317,7 @@ paths:
               type: string
               enum:
                 - containers_count
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -4264,7 +4379,7 @@ paths:
       summary: Create Image
       description: Requires the `images-import` capability.
       requestBody:
-        $ref: '#/components/schemas/ImageCreateRequest'
+        $ref: '#/components/requestBodies/ImageCreateRequest'
       responses:
         '201':
           description: Returns an image resource.
@@ -4314,7 +4429,7 @@ paths:
           description: The ID of the image.
           schema:
             type: string
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -4477,7 +4592,7 @@ paths:
           description: The ID of the image.
           schema:
             type: string
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -4587,7 +4702,7 @@ paths:
       tags:
         - Image Sources
       parameters:
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -4597,7 +4712,7 @@ paths:
               type: string
               enum:
                 - images_count
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -4658,7 +4773,7 @@ paths:
       summary: Create Source
       description: requires the `images-import` capability.
       requestBody:
-        $ref: '#/components/schemas/SourceCreateRequest'
+        $ref: '#/components/requestBodies/SourceCreateRequest'
       responses:
         '201':
           description: Returns an image source resource.
@@ -4706,7 +4821,7 @@ paths:
           description: The ID of the image source.
           schema:
             type: string
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -4716,7 +4831,7 @@ paths:
               type: string
               enum:
                 - images_count
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -4909,7 +5024,7 @@ paths:
       tags:
         - Providers
       parameters:
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -5070,7 +5185,7 @@ paths:
       tags:
         - Providers
       parameters:
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -5381,7 +5496,7 @@ paths:
       tags:
         - Servers
       parameters:
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -5392,7 +5507,7 @@ paths:
               enum:
                 - node
                 - instances_count
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -5503,7 +5618,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -5515,7 +5630,7 @@ paths:
                 - locations
                 - models
                 - providers
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -5615,6 +5730,51 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: removeServer
+      tags:
+        - Servers
+      parameters:
+        - name: serverId
+          description: The ID for the given server.
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a task descriptor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/TaskDescriptor'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   '/v1/infrastructure/servers/{serverId}/telemetry':
     get:
       operationId: getServerTelemetery
@@ -5680,7 +5840,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -5736,7 +5896,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  '/v1/infrastructure/severs/{serverId}/tasks':
+  '/v1/infrastructure/servers/{serverId}/tasks':
     post:
       tags:
         - Servers
@@ -5793,7 +5953,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  '/v1/infrastructure/severs/{serverId}/tags':
+  '/v1/infrastructure/servers/{serverId}/tags':
     get:
       operationId: getServersTags
       tags:
@@ -5838,18 +5998,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  '/v1/infrastructure/severs/{serverId}/clusters':
+  /v1/infrastructure/servers/clusters:
     get:
       operationId: GetServersClusters
       tags:
         - Servers
-      parameters:
-        - name: serverId
-          description: The ID for the given server.
-          in: path
-          required: true
-          schema:
-            type: string
       summary: List Servers Clusters
       description: Requires the `servers-view` capability.
       responses:
@@ -5889,7 +6042,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  '/v1/infrastructure/severs/{serverId}/usage':
+  '/v1/infrastructure/servers/{serverId}/usage':
     get:
       operationId: GetServerUsage
       tags:
@@ -5944,7 +6097,7 @@ paths:
       tags:
         - Infrastructure IPs
       parameters:
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -6191,7 +6344,20 @@ paths:
       operationId: getJobs
       tags:
         - Jobs
-      parameters: []
+      parameters:
+        - name: include
+          in: query
+          required: false
+          description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - creators
+        - $ref: '#/components/parameters/SortParam'
+        - $ref: '#/components/parameters/FilterParam'
+        - $ref: '#/components/parameters/PageParam'
       summary: List Jobs.
       description: Requires the `jobs-view` permission.
       responses:
@@ -6333,7 +6499,7 @@ paths:
       summary: List Stacks
       description: Requires the `stacks-view` permission.
       parameters:
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -6343,7 +6509,7 @@ paths:
               type: string
               enum:
                 - containers_count
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -6699,7 +6865,7 @@ paths:
           description: The ID of the stack
           schema:
             type: string
-        - name: MetaParam
+        - name: meta
           in: query
           required: false
           description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
@@ -6709,7 +6875,7 @@ paths:
               type: string
               enum:
                 - containers_count
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -6781,7 +6947,7 @@ paths:
       summary: Create Stack Build
       description: Requires the `stacks-manage` capability.
       requestBody:
-        $ref: '#/components/schemas/CreateStackBuildRequest'
+        $ref: '#/components/requestBodies/CreateStackBuildRequest'
       responses:
         '201':
           description: Returns a stack build resource.
@@ -6993,7 +7159,7 @@ paths:
       tags:
         - SDN
       parameters:
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -7297,7 +7463,7 @@ paths:
       tags:
         - Pipelines
       parameters:
-        - name: IncludeParam
+        - name: include
           in: query
           required: false
           description: 'A comma separated list of include values. Included resources will show up under the root document''s `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.'
@@ -7969,14 +8135,30 @@ components:
       description: Defines the scope of the request to a specific Hub.
   parameters:
     FilterParam:
-      name: FilterParam
+      name: filter
       in: query
       required: false
       description: 'The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you''re filtering for. For example, you may want to find all containers using image X. In this case, you''d pass a filter of `?filter[image]=X`'
       schema:
         type: string
+    PageParam:
+      name: page
+      in: query
+      required: false
+      description: 'In a list return, the data associated with the page number and size returned.'
+      explode: true
+      style: deepObject
+      schema:
+        type: object
+        properties:
+          number:
+            type: number
+            description: The page to jump to
+          size:
+            type: number
+            description: The number of resources returned per page.
     SortParam:
-      name: SortParam
+      name: sort
       in: query
       required: false
       description: 'An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.'
@@ -7996,7 +8178,20 @@ components:
               permissions:
                 $ref: '#/components/schemas/Permissions'
               capabilities:
-                $ref: '#/components/schemas/Capabilities'
+                type: object
+                description: An object defining the capabilities of the given API key.
+                required:
+                  - all
+                  - specific
+                properties:
+                  all:
+                    type: boolean
+                    description: A boolean where true is giving the key all grantable capabilities.
+                  specific:
+                    type: array
+                    description: An array of capabilites.
+                    items:
+                      $ref: '#/components/schemas/Capabilities'
               ips:
                 type: array
                 nullable: true
@@ -8057,7 +8252,14 @@ components:
                 type: string
                 description: The cluster this environment is associated with.
               about:
-                $ref: '#/components/schemas/About'
+                type: object
+                description: Contains details regarding the environment.
+                required:
+                  - description
+                properties:
+                  description:
+                    type: string
+                    description: A custom description for this environment.
               features:
                 $ref: '#/components/schemas/Features'
               stack:
@@ -8263,6 +8465,48 @@ components:
                     cluster:
                       type: string
                       description: The existing or new cluster this infrastructure should be provisioned in.
+    CreateStackBuildRequest:
+      description: Parameters for creating a new stack build.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              about:
+                type: object
+                description: Information about the stack build.
+                required:
+                  - version
+                  - description
+                properties:
+                  version:
+                    type: string
+                    description: A user defined version of the build.
+                  description:
+                    type: string
+                    description: A user defined description for the build.
+                  git_commit:
+                    $ref: '#/components/schemas/StackGitCommit'
+              instructions:
+                type: object
+                description: Git information on where to pull stack resources from.
+                properties:
+                  git:
+                    type: object
+                    description: Git information specifics.
+                    required:
+                      - type
+                      - value
+                    properties:
+                      type:
+                        type: string
+                        description: The type of information the user is passing.
+                        enum:
+                          - hash
+                          - tag
+                      value:
+                        type: string
+                        description: The actual value to be passed.
     CreateStackRequest:
       description: Parameters for creating a new stack.
       content:
@@ -8330,6 +8574,30 @@ components:
                   high_availability:
                     type: boolean
                     description: A boolean where `true` represents the desire to run the environment discovery service in high availability mode.
+    ImageCreateRequest:
+      description: Parameters for creating a new image.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - source_id
+            properties:
+              name:
+                type: string
+                description: A name for the image.
+              source_id:
+                type: string
+                description: The ID for the image source to be used.
+              override:
+                type: object
+                description: An override object to be used for a single image create request.
+                required:
+                  - target
+                properties:
+                  target:
+                    type: string
+                    description: A target to be used for overridding the default target.
     ImageUpdateRequest:
       description: Parameters for creating a new image.
       content:
@@ -8391,6 +8659,43 @@ components:
                   high_availability:
                     type: boolean
                     description: A boolean where `true` represents the desire to run the environment load balancer service in high availability mode.
+    SourceCreateRequest:
+      description: Parameters for creating an image source.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - type
+              - origin
+            properties:
+              name:
+                type: string
+                description: A name for the image source.
+              type:
+                type: string
+                description: A value identifiying the type of image.
+                enum:
+                  - stack_build
+                  - direct
+              origin:
+                type: object
+                description: The origin of the given image source.
+                oneOf:
+                  - $ref: '#/components/schemas/DockerHubSource'
+                  - $ref: '#/components/schemas/DockerfileRepoSource'
+                  - $ref: '#/components/schemas/DockerfileTarSource'
+                  - $ref: '#/components/schemas/DockerRegistrySource'
+              about:
+                type: object
+                description: User defined information about the image source.
+                required:
+                  - description
+                properties:
+                  description:
+                    type: string
+                    nullable: true
+                    description: A description of the image source.
     SourceUpdateRequest:
       description: Parameters for updating an image source.
       content:
@@ -9326,6 +9631,24 @@ components:
                 - deleting
                 - deleted
         - $ref: '#/components/schemas/State'
+    BillingAmount:
+      title: BillingAmount
+      type: object
+      description: An object holding information about term and amount that relates to a specific billing component.
+      required:
+        - mills
+        - term
+      properties:
+        mills:
+          type: integer
+          description: 1/10th of a cent.
+        term:
+          type: string
+          description: The length of the term.
+          enum:
+            - once
+            - monthly
+            - yearly
     BillingProfile:
       title: HubBillingProfile
       type: object
@@ -10012,48 +10335,6 @@ components:
         dns_zone_id:
           type: string
           description: An ID for the given resource.
-    CreateStackBuildRequest:
-      description: Parameters for creating a new stack build.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              about:
-                type: object
-                description: Information about the stack build.
-                required:
-                  - version
-                  - description
-                properties:
-                  version:
-                    type: string
-                    description: A user defined version of the build.
-                  description:
-                    type: string
-                    description: A user defined description for the build.
-                  git_commit:
-                    $ref: '#/components/schemas/StackGitCommit'
-              instructions:
-                type: object
-                description: Git information on where to pull stack resources from.
-                properties:
-                  git:
-                    type: object
-                    description: Git information specifics.
-                    required:
-                      - type
-                      - value
-                    properties:
-                      type:
-                        type: string
-                        description: The type of information the user is passing.
-                        enum:
-                          - hash
-                          - tag
-                      value:
-                        type: string
-                        description: The actual value to be passed.
     Creator:
       title: Creator
       description: A creator object. Describes who created the resource.
@@ -11033,7 +11314,7 @@ components:
       title: HubMembershipsIncludes
       type: object
       description: A resource thats associated with a hub membershp.
-      additionalProperties:
+      properties:
         senders:
           type: object
           description: A record with an ID mapped to a public account for the account that sent this memberships initial invite.
@@ -11398,30 +11679,6 @@ components:
               $ref: '#/components/schemas/DateTime'
         meta:
           $ref: '#/components/schemas/ImageMeta'
-    ImageCreateRequest:
-      description: Parameters for creating a new image.
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - source_id
-            properties:
-              name:
-                type: string
-                description: A name for the image.
-              source_id:
-                type: string
-                description: The ID for the image source to be used.
-              override:
-                type: object
-                description: An override object to be used for a single image create request.
-                required:
-                  - target
-                properties:
-                  target:
-                    type: string
-                    description: A target to be used for overridding the default target.
     ImageIncludes:
       title: ImageIncludes
       description: All includable resources linkable to the given image.
@@ -12533,7 +12790,7 @@ components:
             - current
           properties:
             current:
-              description: The current state of the zone.
+              description: The current state of the membership.
               type: string
               enum:
                 - pending
@@ -12650,14 +12907,17 @@ components:
         - auth
       properties:
         identifier:
-          type: string
-          description: An identifier for the native provider
-          enum:
-            - aws
-            - equinix-metal
-            - vultr
+          $ref: '#/components/schemas/NativeProviderIdentifier'
         auth:
           $ref: '#/components/schemas/IALAuth'
+    NativeProviderIdentifier:
+      title: NativeProviderIdentifier
+      type: string
+      description: An identifier for the native provider
+      enum:
+        - aws
+        - equinix-metal
+        - vultr
     Network:
       title: ServerStatsNetwork
       type: object
@@ -12842,8 +13102,11 @@ components:
     PipeImageCreate:
       title: PipelineImageCreate
       allOf:
+        - properties:
+            name:
+              type: string
+              description: A name for the image.
         - $ref: '#/components/schemas/ResourceLocation'
-        - $ref: '#/components/schemas/ImageCreateRequest'
     PipeImageImport:
       title: PipelineImageImport
       allOf:
@@ -12852,8 +13115,37 @@ components:
     PipeImageSourceCreate:
       title: PipelineImageSourceCreate
       allOf:
+        - required:
+            - name
+            - origin
+            - type
+          properties:
+            name:
+              type: string
+              description: The image source name.
+            about:
+              type: object
+              description: Information about the image source resource.
+              required:
+                - description
+              properties:
+                description:
+                  type: string
+                  description: Some information about the image source resource.
+            origin:
+              type: object
+              description: The origin of the given image source.
+              oneOf:
+                - $ref: '#/components/schemas/DockerHubSource'
+                - $ref: '#/components/schemas/DockerfileRepoSource'
+                - $ref: '#/components/schemas/DockerfileTarSource'
+                - $ref: '#/components/schemas/DockerRegistrySource'
+            type:
+              type: string
+              description: The type of image source.
+              enum:
+                - direct
         - $ref: '#/components/schemas/ResourceLocation'
-        - $ref: '#/components/schemas/SourceCreateRequest'
     PipeSleep:
       title: PipelineSleep
       type: object
@@ -12866,9 +13158,55 @@ components:
           description: 'Total duration (seconds) to run this step for, before moving on to the next step.'
     PipeStackBuildCreate:
       title: PipelineStackBuildCreate
-      allOf:
-        - $ref: '#/components/schemas/ResourceLocation'
-        - $ref: '#/components/schemas/CreateStackBuildRequest'
+      type: object
+      description: Settings for the create stack build step for a pipeline.
+      required:
+        - stack
+        - type
+        - instructions
+      properties:
+        stack:
+          $ref: '#/components/schemas/ResourceLocation'
+        type:
+          type: string
+          description: The type of stack build.
+          enum:
+            - direct
+        instructions:
+          type: object
+          description: Git information on where to pull stack resources from.
+          properties:
+            git:
+              type: object
+              description: Git information specifics.
+              required:
+                - type
+                - value
+              properties:
+                type:
+                  type: string
+                  description: The type of information the user is passing.
+                  enum:
+                    - hash
+                    - tag
+                value:
+                  type: string
+                  description: The actual value to be passed.
+        about:
+          type: object
+          description: Information about the stack build.
+          required:
+            - version
+            - description
+          properties:
+            version:
+              type: string
+              description: Information about the version of the stack.
+            description:
+              type: string
+              description: Information describing the stack
+            git_commit:
+              $ref: '#/components/schemas/StackGitCommit'
     PipeStackBuildDeploy:
       title: PipelineStackBuildDeploy
       allOf:
@@ -13288,22 +13626,7 @@ components:
         provider:
           $ref: '#/components/schemas/ProviderServerSpec'
         price:
-          type: object
-          description: Price inforamtion for a given server.
-          required:
-            - mills
-            - term
-          properties:
-            mills:
-              type: integer
-              description: 'A mill is 1/10th of a cent, this is the amount in mills per term.'
-            term:
-              type: string
-              description: The term length.
-              enum:
-                - once
-                - monthly
-                - yearly
+          $ref: '#/components/schemas/BillingAmount'
         compatible:
           type: boolean
           description: A boolean where true signifies this server is compatible with the platform.
@@ -13773,6 +14096,51 @@ components:
             overwrite_runtime_config:
               type: boolean
               description: A boolean where true signifies the user wishes to overwrite the current runtime configuration for the given container during the reimage process.
+    RepoSpec:
+      title: StackRepoSourceType
+      type: object
+      description: A repo source type for a stack.
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          description: The URL of the repository.
+        branch:
+          type: string
+          description: An optional branch arguement.  Default value is `master`.
+        auth:
+          type: object
+          description: Authentication information for the repository.
+          required:
+            - type
+            - credentials
+          properties:
+            type:
+              type: string
+              description: The `type` of authentication being used.
+            credentials:
+              type: object
+              description: Authentication credentials for the given type.
+              oneOf:
+                - $ref: '#/components/schemas/CredentialsHTTP'
+                - $ref: '#/components/schemas/CredentialsSSH'
+        ref:
+          type: object
+          description: Repository reference information.
+          required:
+            - type
+            - value
+          properties:
+            type:
+              type: string
+              description: The type of reference being used.
+              enum:
+                - hash
+                - tag
+            value:
+              type: string
+              description: The value for the given reference type.
     RepoType:
       title: RepoSourceType
       type: object
@@ -14575,43 +14943,6 @@ components:
           type: string
           description: The API key ID.
           nullable: true
-    SourceCreateRequest:
-      description: Parameters for creating an image source.
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - type
-              - origin
-            properties:
-              name:
-                type: string
-                description: A name for the image source.
-              type:
-                type: string
-                description: A value identifiying the type of image.
-                enum:
-                  - stack_build
-                  - direct
-              origin:
-                type: object
-                description: The origin of the given image source.
-                oneOf:
-                  - $ref: '#/components/schemas/DockerHubSource'
-                  - $ref: '#/components/schemas/DockerfileRepoSource'
-                  - $ref: '#/components/schemas/DockerfileTarSource'
-                  - $ref: '#/components/schemas/DockerRegistrySource'
-              about:
-                type: object
-                description: User defined information about the image source.
-                required:
-                  - description
-                properties:
-                  description:
-                    type: string
-                    nullable: true
-                    description: A description of the image source.
     SourceIncludes:
       title: SourceIncludes
       description: A resource associate with an image source.
@@ -14625,6 +14956,7 @@ components:
       description: Stacks are a way to orchestrate multiple containers atomically and automatically.
       required:
         - id
+        - name
         - hub_id
         - creator
         - source
@@ -14633,12 +14965,15 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/ID'
+        name:
+          type: string
+          description: A user defined name for the stack resource.
         hub_id:
           $ref: '#/components/schemas/HubID'
         creator:
           $ref: '#/components/schemas/UserScope'
         source:
-          $ref: '#/components/schemas/ImageSource'
+          $ref: '#/components/schemas/StackSource'
         state:
           $ref: '#/components/schemas/StackState'
         events:
@@ -14915,10 +15250,11 @@ components:
             - raw
             - git-repo
         details:
+          nullable: true
           type: object
           description: A details object based on the `type` defined in `type`.
           oneOf:
-            - $ref: '#/components/schemas/RepoType'
+            - $ref: '#/components/schemas/RepoSpec'
             - $ref: '#/components/schemas/StackSpec'
     StackSpec:
       title: StackSpec
