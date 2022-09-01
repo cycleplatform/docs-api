@@ -3379,12 +3379,6 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: hubId
-          description: The ID of the requested hub.
-          in: path
-          required: true
-          schema:
-            type: string
         - name: meta
           in: query
           required: false
@@ -10047,7 +10041,7 @@ components:
           enum:
             - start
             - stop
-      description: The name of the action to perform.
+          description: The name of the action to perform.
     ContainerEnvironmentSummary:
       title: ContainerEnvironmentSummary
       description: A summary of supplemental environment and network information specific to a container.
@@ -12911,11 +12905,18 @@ components:
     NativeProviderIdentifier:
       title: NativeProviderIdentifier
       type: string
-      description: An identifier for the native provider
+      description: An identifier for the provider
       enum:
-        - aws
+        - packet
         - equinix-metal
+        - coreweave
+        - psychz-networks
         - vultr
+        - hivelocity
+        - aws
+        - azure
+        - gcp
+        - digitalocean
     Network:
       title: ServerStatsNetwork
       type: object

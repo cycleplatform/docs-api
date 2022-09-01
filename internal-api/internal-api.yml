@@ -1,0 +1,3824 @@
+openapi: 3.0.0
+servers:
+  - description: Cycle Public API
+    url: 'http://internal.cycle'
+info:
+  title: Cycle Internal API
+  description: 'Inside every container running on Cycle, there is a Unix socket mounted at /var/run/cycle/api/api.sock. You can send HTTP requests over this socket to access information about the local environment, access secrets, and much more. The way this internal API functions is very similar to how Cycle''s main API works, though the purpose is different. The internal API is primarily used by instances to learn about their environment, and dynamically update as deployments change. In the future, we expect you''ll be able to use the internal API to register service containers and much more. The internal API returns identical JSON responses to the main API. There is also a websocket based API that you can tune into for streaming platform updates.'
+  version: 1.0.0
+  contact:
+    email: support@cycle.io
+tags:
+  - name: Environments
+    description: ''
+security:
+  - bearerAuth: []
+    hubAuth: []
+paths:
+  /v1/environment:
+    get:
+      operationId: getEnvironment
+      tags:
+        - Environments
+      parameters: []
+      summary: Fetch Environment
+      description: Doesn't require specific capability.
+      responses:
+        '200':
+          description: Returns an environment resource.
+          content:
+            application/json:
+              schema:
+                title: FetchENvironmentReturn
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Environment'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/environment/containers:
+    get:
+      operationId: getEnvironmentContainers
+      tags:
+        - Environments
+      parameters: []
+      summary: List Environment Containers
+      description: Doesn't require specific capability.
+      responses:
+        '200':
+          description: Returns a collection of container resources.
+          content:
+            application/json:
+              schema:
+                title: ListEnvironmentContainerReturn
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Container'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/environment/instances:
+    get:
+      operationId: getEnvironmentInstances
+      tags:
+        - Environments
+      parameters: []
+      summary: List Envioronment Instances
+      description: Doesn't require a specific capability.
+      responses:
+        '200':
+          description: Returns a collection of container instance resources.
+          content:
+            application/json:
+              schema:
+                title: ListEnvironmentInstancesReturn
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Instance'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/environment/ips:
+    get:
+      operationId: getEnvironmentIPs
+      tags:
+        - Environments
+      parameters: []
+      summary: List Environment IPs
+      description: Doesn't require a specific capability.
+      responses:
+        '200':
+          description: Returns a collection of IP resources.
+          content:
+            application/json:
+              schema:
+                title: ListEnvironmentIPsReturn
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IPAddress'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/environment/services: {}
+  /v1/hub:
+    get:
+      operationId: getHub
+      tags:
+        - Hubs
+      parameters: []
+      summary: Fetch Hub
+      description: Doesn't require a specific capability.
+      responses:
+        '200':
+          description: Returns a Hub resource.
+          content:
+            application/json:
+              schema:
+                title: FetchHubReturn
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Hub'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/server:
+    get:
+      operationId: getServers
+      tags:
+        - Servers
+      parameters: []
+      summary: Fetch Server
+      description: 'Internal API, no capabilities needed.'
+      responses:
+        '200':
+          description: Returns a list of server resources.
+          content:
+            application/json:
+              schema:
+                title: ListEnvironmentContainerReturn
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Server'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/server/containers:
+    get:
+      operationId: getServersContainers
+      tags:
+        - Servers
+      parameters: []
+      summary: List Server Containers
+      description: Doesn't require specific capability.
+      responses:
+        '200':
+          description: Returns a collection of container resources
+          content:
+            application/json:
+              schema:
+                title: ListServersContainerReturn
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Container'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/server/instances:
+    get:
+      operationId: getServersInstances
+      tags:
+        - Servers
+      parameters: []
+      summary: Fetch Server Instances
+      description: 'Internal API, no capabilities needed.'
+      responses:
+        '200':
+          description: Returns a list of instances.
+          content:
+            application/json:
+              schema:
+                title: ListServerInstancesResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Instance'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/container:
+    get:
+      operationId: getContainer
+      tags:
+        - Containers
+      parameters:
+        - name: meta
+          in: query
+          required: false
+          description: 'A comma separated list of meta values. Meta values will show up under a resource''s `meta` field. In the case of applying a meta to a collection of resources, each resource will have it''s own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.'
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - instances_count
+                - domain
+                - domains
+                - ips
+      summary: Fetch Container
+      description: 'Internal API, no capabilities needed.'
+      responses:
+        '200':
+          description: Returns an container resource.
+          content:
+            application/json:
+              schema:
+                title: ContainerResponse
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Container'
+                  includes:
+                    $ref: '#/components/schemas/InstanceIncludes'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/container/instances:
+    get:
+      operationId: getInstances
+      tags:
+        - Containers
+      parameters: []
+      summary: Fetch Instances
+      description: 'Internal API, no capabilities needed.'
+      responses:
+        '200':
+          description: Returns a list of instances.
+          content:
+            application/json:
+              schema:
+                title: ListInstancesResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Instance'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/containers/certificates:
+    get:
+      operationId: getContainerCertificates
+      tags:
+        - Containers
+      parameters: []
+      summary: List Certificates
+      responses:
+        '200':
+          description: Returns a collection of container certificates.
+          content:
+            application/json:
+              schema:
+                title: ListContainerCertificatesResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContainerCertificate'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/notifications:
+    get:
+      tags:
+        - Notifications
+      parameters: []
+      summary: Hub Notification Pipeline Auth
+      description: Doesn't require a specific capability.
+      responses:
+        '200':
+          description: Returns a token.
+          content:
+            application/json:
+              schema:
+                title: HubNotificationAuthResponse
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/HubNotificationToken'
+        '400':
+          description: This usually means the data sent was in an invalid format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: OAuth token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The requested resource doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Indicates an issue with Cycle. Rare.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    hubAuth:
+      name: X-Cycle-Token
+      in: header
+      type: apiKey
+      description: Defines the scope of the request to a specific Container / Environment.
+  schemas:
+    About:
+      title: About
+      type: object
+      description: Contains details regarding the environment.
+      required:
+        - description
+        - favorite
+      properties:
+        description:
+          type: string
+          description: A custom description for this environment.
+        favorite:
+          type: boolean
+          description: 'If true, this environment has been marked as a favorite.'
+    Abstraction:
+      title: InfrastructureProviderAbstraction
+      description: Information about an infrastructure provider abstraction.
+      type: object
+      required:
+        - name
+        - base_url
+      properties:
+        name:
+          type: string
+          description: A name for a given infrastructure abstraction.
+        base_url:
+          type: string
+          description: 'The base url, where the abstraction endpoints are located.'
+        auth:
+          $ref: '#/components/schemas/IALAuth'
+    ApiKey:
+      title: ApiKey
+      description: An extended resource that has information on a Cycle hub API key
+      type: object
+      required:
+        - id
+        - name
+        - creator
+        - hub_id
+        - permissions
+        - capabilities
+        - ips
+        - state
+        - events
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        name:
+          type: string
+          description: The name of the API key
+        hub_id:
+          $ref: '#/components/schemas/ID'
+        secret:
+          type: string
+          description: The API key secret
+        permissions:
+          $ref: '#/components/schemas/Permissions'
+        capabilities:
+          type: object
+          description: The API key capabilities list
+          required:
+            - all
+            - specific
+          properties:
+            all:
+              type: boolean
+            specific:
+              type: array
+              items:
+                type: string
+        ips:
+          type: array
+          nullable: true
+          items:
+            type: string
+        state:
+          allOf:
+            - required:
+                - current
+              properties:
+                current:
+                  type: string
+                  enum:
+                    - live
+                    - deleting
+                    - deleted
+            - $ref: '#/components/schemas/State'
+        events:
+          $ref: '#/components/schemas/Events'
+    BillingProfile:
+      title: HubBillingProfile
+      type: object
+      description: A billing profile for a given hub.
+      required:
+        - term
+        - plans
+      properties:
+        term:
+          $ref: '#/components/schemas/Term'
+        allow_prepaid:
+          type: boolean
+          description: A boolean where true represents this account being approved to use a prepaid card for billing transactions.
+        disable:
+          type: boolean
+          description: A boolean where true means this billing profile is disabled.
+        plans:
+          type: object
+          description: Information about the plan associated with this profile.
+          required:
+            - tier_id
+            - support_id
+          properties:
+            tier_id:
+              type: string
+              description: An ID that maps to a type of hub tier.
+            support_id:
+              type: string
+              description: An ID that maps to the type of support for a given billing profile.
+    CPU:
+      title: ServerStatsCPU
+      type: object
+      description: Statistics about the CPU resources on a server.
+      properties:
+        cores:
+          type: integer
+          description: The number of CPU's or vCPU's for a given server.
+        processors:
+          description: An array of processor information objects.
+          type: array
+          items:
+            type: object
+            description: Processor information.
+            properties:
+              model:
+                type: string
+                description: The model of the processor.
+              speed:
+                type: integer
+                description: The speed of the processor.
+    Capabilities:
+      type: string
+      description: A capability that a user or API key that represents what an API key or a user can do.
+      enum:
+        - hubs-update
+        - hubs-delete
+        - hubs-invites-send
+        - hubs-invites-manage
+        - hubs-members-manage
+        - hubs-members-view
+        - hubs-notifications-listen
+        - billing-methods-manage
+        - billing-invoices-view
+        - billing-invoices-pay
+        - billing-orders-manage
+        - billing-services-view
+        - billing-credits-view
+        - sdn-networks-view
+        - sdn-networks-manage
+        - pipelines-manage
+        - pipelines-view
+        - pipelines-trigger
+        - environments-create
+        - environments-delete
+        - environments-view
+        - environments-update
+        - environments-state
+        - environments-services-manage
+        - environments-vpn
+        - environments-vpn-manage
+        - containers-deploy
+        - containers-view
+        - containers-console
+        - containers-ssh
+        - containers-update
+        - containers-delete
+        - containers-state
+        - containers-volumes-manage
+        - containers-volumes-view
+        - containers-instances-migrate
+        - containers-backups-manage
+        - containers-backups-view
+        - stacks-manage
+        - stacks-view
+        - stacks-builds-manage
+        - stacks-builds-deploy
+        - images-view
+        - images-import
+        - images-update
+        - images-delete
+        - images-build
+        - images-sources-view
+        - images-sources-manage
+        - jobs-view
+        - api-keys-manage
+        - ips-manage
+        - servers-provision
+        - servers-view
+        - servers-update
+        - servers-login
+        - servers-state
+        - servers-decommission
+        - infrastructure-providers-manage
+        - infrastructure-providers-view
+        - usage-view
+        - dns-view
+        - dns-manage"
+    Certificate:
+      title: DNSRecordCertificate
+      type: object
+      description: A TLS record certificate
+      required:
+        - id
+        - generated
+        - wildcard_child
+      nullable: true
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        generated:
+          $ref: '#/components/schemas/DateTime'
+        wildcard_child:
+          type: boolean
+          description: A value where true represents that the certificate is using a shared wildcard cert.
+    Config:
+      title: ContainerConfig
+      description: A container configuration.
+      type: object
+      required:
+        - network
+        - deploy
+      properties:
+        network:
+          $ref: '#/components/schemas/ContainerNetwork'
+        deploy:
+          $ref: '#/components/schemas/_deploy'
+        runtime:
+          $ref: '#/components/schemas/Runtime'
+        resources:
+          $ref: '#/components/schemas/Resources'
+        integrations:
+          $ref: '#/components/schemas/ContainerIntegrations'
+    Container:
+      title: Container
+      type: object
+      description: 'Containers are a way to package together your application along with it''s dependencies, and run in a resource isolated process. They provide consistency across different hosts, efficiency over traditional hosting methods, and facilitate a micro-service based approach, where each logical piece of your application is split into multiple, easily testable parts (such as API, Backend, Frontend, etc).'
+      required:
+        - id
+        - name
+        - identifier
+        - creator
+        - environment
+        - hub_id
+        - image
+        - config
+        - instances
+        - annotations
+        - stateful
+        - state
+        - events
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        name:
+          type: string
+          description: A user defined name for the container resource.
+        identifier:
+          type: string
+          description: A human readable slugged identifier for this container. Usually used as a key in a stack file.
+        creator:
+          $ref: '#/components/schemas/Creator'
+        environment:
+          $ref: '#/components/schemas/ContainerEnvironmentSummary'
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+        image:
+          $ref: '#/components/schemas/ImageSummary'
+        stack:
+          $ref: '#/components/schemas/StackSummary'
+        config:
+          $ref: '#/components/schemas/Config'
+        instances:
+          type: integer
+          description: The number of instances for a given container.
+        volumes:
+          $ref: '#/components/schemas/VolumeSummary'
+        annotations:
+          type: object
+          description: Custom meta data for a given container
+          nullable: true
+          additionalProperties:
+            type: string
+        role:
+          type: string
+          description: The role of a given container if it has one.
+          enum:
+            - orchestrator
+          nullable: true
+        stateful:
+          type: boolean
+          description: A boolean where true signifies the container is stateful.
+        deprecate:
+          type: boolean
+          description: A boolean where true signifies the container is marked as deprecated.
+        state:
+          $ref: '#/components/schemas/ContainerState'
+        events:
+          title: ContainerEvents
+          type: object
+          description: A collection of timestamps for each event in the container's lifetime.
+          required:
+            - created
+            - updated
+            - deleted
+            - started
+          properties:
+            created:
+              description: The timestamp of when the container was created.
+              $ref: '#/components/schemas/DateTime'
+            updated:
+              description: The timestamp of when the container was updated.
+              $ref: '#/components/schemas/DateTime'
+            deleted:
+              description: The timestamp of when the container was deleted.
+              $ref: '#/components/schemas/DateTime'
+            started:
+              description: The timestamp of when the container was started.
+              $ref: '#/components/schemas/DateTime'
+        meta:
+          $ref: '#/components/schemas/ContainersMeta'
+    ContainerCertificate:
+      title: ContainerCertificate
+      description: A certificate resource associated with a container.
+      type: object
+      required:
+        - id
+        - domains
+        - private_key
+        - bundle
+        - csr
+        - issuer_certificate
+        - hub_id
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        domains:
+          type: array
+          description: An array of domains associated with the certificate.
+          items:
+            type: string
+        private_key:
+          type: string
+          description: The certificates private key.
+        bundle:
+          type: string
+          description: A bundle of certificates that are used to verify authenticity.
+        csr:
+          type: string
+          description: A CSR or Certificate Signing request is a block of encoded text that is given to a Certificate Authority when applying for an SSL Certificate.
+        issuer_certificate:
+          type: string
+          description: The issuer's certificate.
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+    ContainerEnvironmentSummary:
+      title: ContainerEnvironmentSummary
+      description: A summary of supplemental environment and network information specific to a container.
+      type: object
+      required:
+        - id
+        - cluster
+        - container_subnet
+        - ipv6
+        - legacy
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        cluster:
+          type: string
+          description: The cluster this environment is associated with.
+        container_subnet:
+          type: string
+          description: The private network subnet ID for this container and its instances.
+        ipv6:
+          allOf:
+            - description: The IPv6 interface.
+            - $ref: '#/components/schemas/IPNet'
+        legacy:
+          $ref: '#/components/schemas/LegacyNetwork'
+    ContainerImageSummary:
+      title: ContainerImageSummary
+      description: The Id of the image and information on if it is a service.
+      type: object
+      required:
+        - id
+        - service
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        service:
+          type: string
+          nullable: true
+          description: If this image is a service container this will say either `discovery` | `loadbalancer` | `vpn`.
+          enum:
+            - discovery
+            - loadbalancer
+            - vpn
+    ContainerIntegrations:
+      title: ContainerIntegrations
+      type: object
+      description: Configuration settings for integrations with a given container.
+      properties:
+        webhooks:
+          type: object
+          description: Webhooks that can be set for specific event reporting and advanced container configurations.
+          properties:
+            events:
+              type: object
+              description: Container events that can be configured to report to a webhook.
+              properties:
+                deploy:
+                  type: string
+                  description: A webhook to hit when a container deploy event happens.
+                start:
+                  type: string
+                  description: A webhook to hit when a container start event happens.
+                stop:
+                  type: string
+                  description: A webhook to hit when a container stop event happens.
+            config:
+              type: string
+              description: 'An endpoint that the platform will react out to with a get request.  This endpoint serves a partial container config which can modify `runtime`, `resources`, and `integrations` configurations.'
+        files:
+          type: array
+          description: Inject remotely hosted files into container instances at runtime.
+          items:
+            type: object
+            description: These objects are sources and destinations for the given files.
+            required:
+              - source
+              - destination
+            properties:
+              source:
+                type: string
+                description: The http endpoint that is hosting the files to be used.
+              destination:
+                type: string
+                description: The path in the container for these files to be injected.
+        lets_encrypt:
+          type: object
+          description: Configuration settings to embed a TLS certificate in the container.
+          required:
+            - enable
+          properties:
+            enable:
+              type: boolean
+              description: A boolean where true represents the desire for a container to have its corresponding TLS certificate(s) injected into the configured path(s).
+            certificate_path:
+              type: string
+              description: Path where the `certificate.cert` will be saved.
+            chain_path:
+              type: string
+              description: Path where the `certificate.chain` will be saved.
+            key_path:
+              type: string
+              description: Path where the `certificate.key` will be saved.
+            bundle_path:
+              type: string
+              description: Path where the `certificate.bundle` will be saved.
+            additional_certs_path:
+              type: string
+              description: File path where any remaining certificate files will be stored.
+        backups:
+          type: object
+          description: Automated backups configuration for the given container.
+          required:
+            - destination
+            - backup
+            - restore
+          properties:
+            destination:
+              type: string
+              description: The storage provider to use for backups.
+              enum:
+                - backblaze-b2
+            backup:
+              type: object
+              description: Configuration settings for each backup.
+              required:
+                - command
+              properties:
+                command:
+                  type: string
+                  description: The command to run for the backup.
+                timeout:
+                  type: integer
+                  description: The time in seconds for the backup to attempt to run before timing out.
+                  nullable: true
+                cron_string:
+                  type: string
+                  description: A cron string that configures how often the backup will run.
+            restore:
+              type: object
+              description: Configuration settings for restoring from a backup.
+              required:
+                - command
+              properties:
+                command:
+                  type: string
+                  description: The command to run for restoring from a backup.
+                timeout:
+                  type: integer
+                  nullable: true
+                  description: The time in seconds for the restore to appempt to complete before timing out.
+    ContainerNetwork:
+      title: ContainerNetwork
+      type: object
+      description: Network configuration for a container.
+      required:
+        - public
+        - hostname
+      properties:
+        public:
+          type: string
+          description: The public network settings for the given container
+          enum:
+            - public
+            - egress-only
+            - disable
+        hostname:
+          type: string
+          description: The hostname for the given container.
+        ports:
+          type: array
+          items:
+            type: string
+          description: An array of port mappings for the container.
+    ContainerState:
+      title: ContainerState
+      allOf:
+        - required:
+            - current
+          properties:
+            current:
+              description: The current state of the container.
+              type: string
+              enum:
+                - new
+                - starting
+                - running
+                - stopping
+                - stopped
+                - deleting
+                - deleted
+        - $ref: '#/components/schemas/State'
+    ContainerSummary:
+      title: ContainerSummary
+      type: object
+      description: Contains useful and relevant data/statistics for a container that would otherwise be several separate API calls.
+      required:
+        - id
+        - name
+        - state
+        - image
+        - environment
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        name:
+          type: string
+          description: A user defined name for the container resource.
+        state:
+          $ref: '#/components/schemas/ContainerState'
+        image:
+          $ref: '#/components/schemas/ContainerImageSummary'
+        environment:
+          $ref: '#/components/schemas/ContainerEnvironmentSummary'
+    ContainersIncludes:
+      title: ContainersIncludes
+      type: object
+      description: A resource thats associated with a contianer.
+      additionalProperties:
+        $ref: '#/components/schemas/Container'
+    ContainersMeta:
+      title: ContainersMeta
+      type: object
+      description: A list of meta fields that can be applied to a container.
+      properties:
+        instances_count:
+          $ref: '#/components/schemas/StateCountSummary'
+        domain:
+          type: string
+          description: 'The FQDN for this container, if there is one.'
+        domains:
+          type: array
+          items:
+            type: object
+            description: Holds domain name and record mappings.
+            required:
+              - fqdn
+              - record
+            properties:
+              fqdn:
+                type: string
+                description: The fully qualified domain name.
+              record:
+                $ref: '#/components/schemas/Record'
+        ips:
+          description: An array of IP resources.
+          type: array
+          items:
+            $ref: '#/components/schemas/IP'
+    Creator:
+      title: Creator
+      description: A creator object. Describes who created the resource.
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        type:
+          type: string
+          description: The type of creator.
+          enum:
+            - account
+            - employee
+            - api-key
+            - visitor
+            - environments
+    CreatorInclude:
+      title: CreatorInclude
+      description: An identity that created a resource.
+      type: object
+      properties:
+        accounts:
+          type: object
+          description: 'Included creators that are public accounts, keyed by ID.'
+          additionalProperties:
+            $ref: '#/components/schemas/PublicAccount'
+        employees:
+          type: object
+          description: 'Included creators that are employees of Cycle, keyed by ID.'
+          example: null
+          additionalProperties:
+            $ref: '#/components/schemas/PublicAccount'
+        visitors:
+          type: object
+          description: 'Included creators that are not Cycle accounts, keyed by ID.'
+          example: null
+          additionalProperties:
+            $ref: '#/components/schemas/PublicAccount'
+        environments:
+          type: object
+          description: 'Included creators that are Cycle environments (usually automatically created resources), keyed by ID.'
+          example: null
+          additionalProperties:
+            $ref: '#/components/schemas/Environment'
+        api_keys:
+          type: object
+          description: 'Included creators that are Cycle API Keys, keyed by ID.'
+          additionalProperties:
+            $ref: '#/components/schemas/ApiKey'
+    DateTime:
+      title: DateTime
+      type: string
+      format: date-time
+      example: '2021-01-30T08:30:00Z'
+    DiscoveryEnvironmentService:
+      title: DiscoveryEnvironmentService
+      type: object
+      nullable: true
+      description: Information about the environments discovery service(s).
+      required:
+        - enable
+        - container_id
+        - high_availability
+        - config
+      properties:
+        enable:
+          type: boolean
+          description: Whether or not the discovery service is enabled.
+        container_id:
+          type: string
+          description: The ID of the discovery service container
+        high_availability:
+          type: boolean
+          description: A boolean representing if this service container is set to high availability mode or not.
+        config:
+          type: object
+          description: The config object for the discovery service.
+          properties: {}
+    Environment:
+      title: Environment
+      type: object
+      description: 'Environments are groups of containers with a private network built between them. For more information on environments, see the [main docs](https://docs.cycle.io/environments/overview/).'
+      required:
+        - id
+        - name
+        - cluster
+        - about
+        - creator
+        - hub_id
+        - state
+        - events
+        - features
+        - services
+        - private_network
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        name:
+          type: string
+          description: A user defined name for the environment resource.
+        cluster:
+          type: string
+          description: The cluster this environment is associated with.
+        about:
+          $ref: '#/components/schemas/About'
+        creator:
+          $ref: '#/components/schemas/Creator'
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+        state:
+          $ref: '#/components/schemas/EnvironmentState'
+        events:
+          title: EnvironmentEvents
+          type: object
+          description: A collection of timestamps for each event in the environment's lifetime.
+          required:
+            - created
+            - updated
+            - deleted
+          properties:
+            created:
+              description: The timestamp of when the environment was created.
+              $ref: '#/components/schemas/DateTime'
+            updated:
+              description: The timestamp of when the environment was updated.
+              $ref: '#/components/schemas/DateTime'
+            deleted:
+              description: The timestamp of when the environment was deleted.
+              $ref: '#/components/schemas/DateTime'
+        features:
+          $ref: '#/components/schemas/Features'
+        services:
+          $ref: '#/components/schemas/EnvironmentServices'
+        private_network:
+          $ref: '#/components/schemas/PrivateNetwork'
+        meta:
+          $ref: '#/components/schemas/EnvironmentMeta'
+    EnvironmentIncludes:
+      title: EnvironmentInclude
+      description: An identity that is associated with an environment.
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/Environment'
+    EnvironmentMeta:
+      title: EnvironmentMeta
+      type: object
+      description: A list of meta fields that can be applied to this environment.
+      properties:
+        containers_count:
+          $ref: '#/components/schemas/StateCountSummary'
+        instances_count:
+          $ref: '#/components/schemas/StateCountSummary'
+        containers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerSummary'
+    EnvironmentServiceContainerSummary:
+      title: EnvironmentServiceContainerSummary
+      type: object
+      description: An object containing information about a service container associated with this environment.
+      required:
+        - enable
+        - container_id
+        - state
+      properties:
+        enable:
+          type: boolean
+          description: Whether or not the service is enabled.
+        container_id:
+          $ref: '#/components/schemas/ID'
+        state:
+          $ref: '#/components/schemas/ContainerState'
+    EnvironmentServices:
+      title: EnvironmentServices
+      type: object
+      description: Service containers run by this environment and their configurations.
+      required:
+        - loadbalancer
+      properties:
+        loadbalancer:
+          $ref: '#/components/schemas/LoadBalancerEnvironmentService'
+        discovery:
+          $ref: '#/components/schemas/DiscoveryEnvironmentService'
+        vpn:
+          $ref: '#/components/schemas/VpnEnvironmentService'
+    EnvironmentState:
+      title: EnvironmentState
+      allOf:
+        - required:
+            - current
+          properties:
+            current:
+              description: The current state of the environment.
+              type: string
+              enum:
+                - new
+                - live
+                - cloning
+                - deleting
+                - deleted
+        - $ref: '#/components/schemas/State'
+    EnvironmentSummary:
+      title: EnvironmentSummary
+      type: object
+      description: Contains useful and relevant data/statistics for an environment that would otherwise be several separate API calls.
+      required:
+        - id
+        - state
+        - services
+        - stats
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        state:
+          $ref: '#/components/schemas/EnvironmentState'
+        services:
+          title: EnvironmentServiceSummary
+          type: object
+          description: 'An object containing information about the service containers associated with this container. Each key is the name of a service, one of `discovery`, `vpn`, or `loadbalancer`.'
+          required:
+            - loadbalancer
+            - discovery
+            - vpn
+          properties:
+            loadbalancer:
+              $ref: '#/components/schemas/EnvironmentServiceContainerSummary'
+            discovery:
+              $ref: '#/components/schemas/EnvironmentServiceContainerSummary'
+            vpn:
+              $ref: '#/components/schemas/EnvironmentServiceContainerSummary'
+        stats:
+          title: EnvironmentSummaryStats
+          type: object
+          description: Statistics about the containers and instances associated with this environment.
+          required:
+            - containers
+            - instances
+          properties:
+            containers:
+              $ref: '#/components/schemas/StateCountSummary'
+            instances:
+              $ref: '#/components/schemas/StateCountSummary'
+    Error:
+      title: Error
+      description: |-
+        The Cycle API uses standard HTTP response codes to indicate the success or failure of an API request. Codes in the `2xx` range indicate success. Codes in the `4xx` range indicate a request that failed due to input, and codes in the `5xx` range indicate an error on Cycle's part (rare).
+        There are two types of error response objects. Errors with authentication are formatted to follow the OAuth spec, while all other errors follow the same convention. If you're using one of our API Libraries, they will standardize OAuth errors to fit the general convention.
+      type: object
+      required:
+        - 'status, code, title'
+      properties:
+        status:
+          type: integer
+          description: The HTTP response code.
+          enum:
+            - 400
+            - 401
+            - 403
+            - 404
+            - 415
+            - 422
+            - 500
+        code:
+          type: string
+          description: A Cycle standard error code.
+          enum:
+            - 400.invalid_syntax
+            - 403.hub_mismatch
+            - 403.hub_not_ready
+            - 403.environment_not_ready
+            - 403.restricted_portal
+            - 403.signup
+            - 403.permissions
+            - 403.wrong_scope
+        title:
+          type: string
+          description: The main text describing the error.
+        detail:
+          type: string
+          description: A more detailed description of the error.
+        source:
+          type: string
+          description: 'A [JSON pointer](https://tools.ietf.org/html/rfc6901/) describing the source of an error.'
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: An error response.
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+        data:
+          nullable: true
+          type: object
+          default: null
+    Events:
+      title: Events
+      description: 'Cycle resources usually contain an events field, the event being the key and a formatted time string being the value.'
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/DateTime'
+    Features:
+      title: Features
+      type: object
+      description: An object representing specialized features configured for this environment.
+      required:
+        - legacy_networking
+      properties:
+        legacy_networking:
+          description: Whether or not legacy networking mode is enabled on this environment.
+          type: boolean
+    Geographic:
+      title: LocationGeographic
+      type: object
+      description: Geographic information about a provider location.
+      required:
+        - latitude
+        - longitude
+        - city
+        - state
+        - country
+        - region
+      properties:
+        latitude:
+          type: integer
+          description: The latitude of the given provider datacenter.
+        longitude:
+          type: integer
+          description: The longitude of the given provider datacenter.
+        city:
+          type: string
+          description: The city the datacenter resides in.
+        state:
+          type: string
+          description: The state the datacenter resides in.
+        country:
+          type: string
+          description: The country the datacenter resides in.
+        region:
+          type: string
+          description: The region the datacenter resides in.
+    HAProxyConfig:
+      type: object
+      required:
+        - frontend
+        - backend
+      properties:
+        frontend:
+          type: object
+          nullable: true
+          description: Settings that describe how incoming traffic to the load balancer is handled.
+          required:
+            - mode
+            - max_connections
+            - timeouts
+          properties:
+            mode:
+              type: string
+              description: |-
+                The type of traffic expected by the load balancer for this port. Can be either: 
+                 - tcp: Traffic is forwarded without any parsing or additional manipulation. 
+                 - http: Traffic is treated as web traffic. If a LINKED record is configured for a container exposing this port, the domain will be parsed and it will be forwarded to the proper container. This allows multiple services to run on port 80 in the same environment.
+              enum:
+                - tcp
+                - http
+            max_connections:
+              type: integer
+              nullable: true
+              description: The number of simultaneous connections that can be processed at a time.
+            timeouts:
+              type: object
+              nullable: true
+              description: Various options for handling timeouts when communicating with the client.
+              required:
+                - client_secs
+                - client_fin_ms
+                - http_keep_alive_ms
+                - http_request_ms
+              properties:
+                client_secs:
+                  type: integer
+                  nullable: true
+                  description: The number of seconds the load balancer will wait for a response from a client before disconnecting.
+                client_fin_ms:
+                  type: integer
+                  nullable: true
+                  description: The number of milliseconds the load balancer will wait for a client to send it data when one direction is already closed. This is particularly useful to avoid keeping connections in a waiting state for too long when clients do not disconnect cleanly.
+                http_keep_alive_ms:
+                  type: integer
+                  nullable: true
+                  description: 'The number of milliseconds the load balancer will wait for a new HTTP request to start coming after a response was set. See the [HAProxy Docs](https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#4.2-timeout%20http-request) for more information. (`http` mode only)'
+                http_request_ms:
+                  type: integer
+                  nullable: true
+                  description: 'The number of milliseconds the load balancer will wait for a complete HTTP request. See the [HAProxy Docs](https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#4.2-timeout%20http-request) for more information. (`http` mode only)'
+        backend:
+          type: object
+          nullable: true
+          description: Settings related to how the load balancer routes connections to container instances.
+          required:
+            - balance
+            - timeouts
+          properties:
+            balance:
+              type: string
+              description: |-
+                How connections are balanced across your container instances. Can be one of the following: 
+                 - `round-robin`: Each container instance is used in turns. 
+                 - `static-rr`: Each container instance is used in turns, but is faster than Round Robin at the expense of being less dynamic. 
+                 - `leastconn`: Routes traffic to the instance with the least number of active connections. 
+                 - `first`: Routes traffic to the first available instance. 
+                 - `source`: The same client IP always reaches the same container instance as long as no instance goes down or up.
+              enum:
+                - round-robin
+                - static-rr
+                - leastconn
+                - first
+                - source
+            timeouts:
+              type: object
+              nullable: true
+              description: Various options for handling timeouts when communicating with a container instance behind the load balancer.
+              required:
+                - server_secs
+                - server_fin_ms
+                - connect_ms
+                - queue_ms
+                - tunnel_secs
+              properties:
+                server_secs:
+                  type: integer
+                  nullable: true
+                  description: 'The number of seconds the load balancer will wait for a response from the container instance. See the [HAProxy Docs](https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#4.2-timeout%20server) for more information.'
+                server_fin_ms:
+                  type: integer
+                  nullable: true
+                  description: 'The number of milliseconds the load balancer will wait for the server to send data when one direction is already closed. See the [HAProxy Docs](https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#4-timeout%20server-fin) for more information.'
+                connect_ms:
+                  type: integer
+                  nullable: true
+                  description: 'The number of milliseconds the load balancer will wait for a successful connection to a container instance. See the [HAProxy Docs](https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#4-timeout%20connect) for more information.'
+                queue_ms:
+                  type: integer
+                  nullable: true
+                  description: 'The number of milliseconds the load balancer will hold connections in a queue when the maximum number of connections has been reached. See the [HAProxy Docs](https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#4-timeout%20queue) for more information.'
+                tunnel_secs:
+                  type: integer
+                  nullable: true
+                  description: 'The number of milliseconds the load balancer will allow for inactivity on a bidirectional tunnel. See the [HAProxy Docs](https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#4-timeout%20tunnel) for more information.'
+    Hub:
+      title: Hub
+      description: A hub resource.
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        name:
+          type: string
+          description: A name for the hub.
+        creator:
+          $ref: '#/components/schemas/Creator'
+        events:
+          title: HubEvents
+          type: object
+          description: A collection of timestamps for each event in the hub's lifetime.
+          required:
+            - created
+            - updated
+            - deleted
+            - first_provider
+            - first_server
+            - first_environment
+            - first_image
+            - first_container
+          properties:
+            created:
+              description: The timestamp of when the hub was created.
+              $ref: '#/components/schemas/DateTime'
+            updated:
+              description: The timestamp of when the hub was updated.
+              $ref: '#/components/schemas/DateTime'
+            deleted:
+              description: The timestamp of when the hub was deleted.
+              $ref: '#/components/schemas/DateTime'
+            first_provider:
+              description: The timestamp of when the hub had the first provider added.
+              $ref: '#/components/schemas/DateTime'
+            first_server:
+              description: The timestamp of when the hub had the first_server deployed.
+              $ref: '#/components/schemas/DateTime'
+            first_environment:
+              description: The timestamp of when the hub had the first environment deployed.
+              $ref: '#/components/schemas/DateTime'
+            first_image:
+              description: The timestamp of when the hub had the first image deployed.
+              $ref: '#/components/schemas/DateTime'
+            first_container:
+              description: The timestamp of when the hub had the first container deployed.
+              $ref: '#/components/schemas/DateTime'
+        state:
+          $ref: '#/components/schemas/HubState'
+        integrations:
+          $ref: '#/components/schemas/HubIntegrations'
+        webhooks:
+          type: object
+          description: All hub webhooks for the given hub.
+          required:
+            - server_deployed
+          properties:
+            server_deployed:
+              nullable: true
+              type: string
+              description: A webhook to report information to each time a server is deployed on the given hub.
+        billing:
+          $ref: '#/components/schemas/BillingProfile'
+        meta:
+          $ref: '#/components/schemas/HubMeta'
+    HubID:
+      title: HubID
+      type: string
+      description: The unique ID of the Hub this resource was created in.
+    HubIntegrations:
+      title: HubIntegrations
+      description: Integration information for a given hub.
+      type: object
+      required:
+        - letsencrypt
+        - backblaze_b2
+      properties:
+        letsencrypt:
+          type: object
+          description: A hub integration with Lets Encrypt service.
+          required:
+            - email
+          nullable: true
+          properties:
+            email:
+              type: string
+              description: An email address to assocaite with Lets Encrypt certificates generated for DNS records on this hub.
+        backbalze_b2:
+          type: object
+          description: Information about the Backblaze account and bucket assocaited with the given hub.
+          required:
+            - bucket
+            - key_id
+            - key
+          nullable: true
+          properties:
+            bucket:
+              type: string
+              description: The bucket name.
+            key_id:
+              type: string
+              description: The `key_id` from Backblaze for a given key ( the one used for this integration ).
+            key:
+              type: string
+              description: The key associated with the bucket.
+    HubMembership:
+      title: HubMembership
+      type: object
+      description: A membership resource that is scoped to an individual hub.
+      required:
+        - id
+        - account_id
+        - hub_id
+        - role
+        - events
+        - state
+        - invitation
+        - permissions
+        - prefereneces
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        account_id:
+          type: string
+          description: An ID for the account associated with the given membership.
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+        role:
+          type: integer
+          description: A number that maps to the currently set role of the member.
+          enum:
+            - 1 (Owner)
+            - 2 (Admin)
+            - 3 (Developer)
+            - 4 (Analyst)
+        events:
+          title: MembershipEvents
+          type: object
+          description: A collection of timestamps for each event in the membership's lifetime.
+          required:
+            - created
+            - updated
+            - deleted
+            - joined
+          properties:
+            created:
+              description: The timestamp of when the membership was created.
+              $ref: '#/components/schemas/DateTime'
+            updated:
+              description: The timestamp of when the membership was updated.
+              $ref: '#/components/schemas/DateTime'
+            deleted:
+              description: The timestamp of when the membership was deleted.
+              $ref: '#/components/schemas/DateTime'
+            joined:
+              description: The timestamp of when the membership was accepted.
+              $ref: '#/components/schemas/DateTime'
+        state:
+          $ref: '#/components/schemas/MembershipState'
+        invitation:
+          $ref: '#/components/schemas/Invitation'
+        permissions:
+          type: object
+          description: Information about this members permissions for a given hub.
+          required:
+            - all_environments
+            - environments
+          properties:
+            all_environments:
+              type: boolean
+              description: A boolean where true represents the member has access to view and manage all environments for the hub.
+            environments:
+              description: An array of environments this membership has access to.
+              type: array
+              items:
+                type: object
+                description: Environment membership resources.
+                required:
+                  - id
+                  - manage
+                properties:
+                  id:
+                    $ref: '#/components/schemas/ID'
+                  manage:
+                    type: boolean
+                    description: A boolean where true represents this environment can be managed by the membership (i.e. its not just read-only).
+        prefereneces:
+          type: object
+          description: Preference information set by the user for the membership.
+          required:
+            - notifications
+          properties:
+            notifications:
+              type: object
+              description: Notification preferences for the membership.
+              required:
+                - api_keys
+              properties:
+                api_keys:
+                  type: boolean
+                  description: A boolean where true represents the desire for the membership to get notifications about activity generated by API key type events.
+        cycle:
+          type: object
+          description: Infromation about the membership as it pertains to the account holders affiliation with being a Cycle employee. Cycle employee accounts do not consume a "membership" for a given hub.
+          required:
+            - employee_id
+          properties:
+            employee_id:
+              type: string
+              description: The ID of the employee this membership is associated with.
+        meta:
+          $ref: '#/components/schemas/HubMembershipMeta'
+    HubMembershipMeta:
+      title: HubMembershipMeta
+      type: object
+      description: A list of meta fields that can be applied to a membership.
+      properties:
+        capabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Capabilities'
+    HubMeta:
+      title: HubsMeta
+      type: object
+      description: A list of meta fields that can be applied to a hub.
+      properties:
+        membership:
+          $ref: '#/components/schemas/HubMembership'
+    HubNotificationToken:
+      title: HubNotificationPipelineAuthResponse
+      description: A token resource.
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          description: A token used for connecting to the hub notification pipeline websocket API.
+    HubState:
+      title: HubState
+      allOf:
+        - required:
+            - current
+          properties:
+            current:
+              description: The current state of the hub.
+              type: string
+              enum:
+                - new
+                - configuring
+                - live
+                - inactive
+                - deleting
+                - deleted
+        - $ref: '#/components/schemas/State'
+    IALAuth:
+      title: IALAuth
+      type: object
+      description: Infrastructure abstraction layer authentication information.
+      properties:
+        namespace:
+          type: string
+          description: A namespace for the IAL entry.
+        region:
+          type: string
+          description: Information about the region being used.
+        api_key:
+          type: string
+          description: The API key used to make a request against the given provider.
+        secret:
+          type: string
+          description: A secret.
+        config:
+          type: string
+          description: A config string.
+        cycle:
+          type: object
+          description: Information about the Cycle properties making the request.
+          required:
+            - hub_name
+            - hub_id
+          properties:
+            hub_name:
+              type: string
+              description: The name of the hub.
+            hub_id:
+              $ref: '#/components/schemas/HubID'
+    ID:
+      title: ID
+      type: string
+      description: A unique identifier.
+    IP:
+      title: IP
+      type: object
+      description: An IP resource.
+      required:
+        - id
+        - hub_id
+        - kind
+        - assingment
+        - pool_id
+        - address
+        - gateway
+        - cidr
+        - state
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+        kind:
+          type: string
+          description: The type of IP protocol this IP is.
+          enum:
+            - ipv4
+            - ipv6
+        assignment:
+          type: object
+          description: Information about the assignment of this IP.
+          nullable: true
+          required:
+            - container_id
+            - instance_id
+            - environment_id
+          properties:
+            container_id:
+              type: string
+            instance_id:
+              type: string
+            environment_id:
+              type: string
+        pool_id:
+          type: string
+          description: A unique identifier that associates the IP with an IP pool.
+        address:
+          type: string
+          description: The IP address.
+        gateway:
+          type: string
+          description: The IP gateway.
+        cidr:
+          type: string
+          description: The CIDR for the IP.
+        state:
+          $ref: '#/components/schemas/IPState'
+    IPAddress:
+      title: EnvironmentIPAddress
+      type: object
+      description: IP address information for a given environment.
+      required:
+        - id
+        - hub_id
+        - kind
+        - assignment
+        - pool_id
+        - host_nat_ip
+        - address
+        - gateway
+        - cidr
+        - state
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+        kind:
+          type: string
+          description: The type of IP pool.
+          enum:
+            - ipv4
+            - ipv6
+        assignment:
+          description: IDs of instance/container/environment that this IP address is assigned to.
+          type: array
+          items:
+            type: object
+            properties:
+              container_id:
+                type: string
+                description: An ID for a container this IP is associated with.
+              instance_id:
+                type: string
+                description: An ID for a instance this IP is associated with.
+              environment_id:
+                type: string
+                description: An ID for the environment this IP is associated with.
+        pool_id:
+          type: string
+          description: The ID of the IP pool associated with this IP.
+        host_nat_ip:
+          type: string
+          description: The IP address on the host where NAT translations are done (if any).
+          nullable: true
+        address:
+          type: string
+          description: The IP address.
+        gateway:
+          type: string
+          description: The network gateway.
+        cidr:
+          type: string
+          description: The CIDR for the IP block.
+          nullable: true
+        state:
+          allOf:
+            - required:
+                - current
+              properties:
+                current:
+                  description: the current state of the IP.
+                  type: string
+                  enum:
+                    - assigning
+                    - assigned
+                    - releasing
+                    - available
+            - $ref: '#/components/schemas/State'
+    IPNet:
+      title: IPNet
+      type: object
+      required:
+        - ip
+        - cidr
+      properties:
+        ip:
+          type: string
+          description: The IP address.
+          example: 'fd00::21:0:0:0'
+        cidr:
+          type: string
+          description: 'The CIDR notation, describing the range of IP addresses.'
+          example: 'fd00::21:0:0:0/96'
+    IPState:
+      title: IPState
+      allOf:
+        - required:
+            - current
+          properties:
+            current:
+              description: The current state of the IP.
+              type: string
+              enum:
+                - assigning
+                - assigned
+                - releasing
+                - available
+    ImageSummary:
+      title: ContainerImageSummary
+      description: A summary of the image this container was created from.
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        service:
+          type: string
+          nullable: true
+          description: 'If a service container, the identifier specifying which service it is.'
+          enum:
+            - loadbalancer
+            - discovery
+            - vpn
+    Instance:
+      title: Instance
+      type: object
+      description: A container instance resource.
+      required:
+        - id
+        - hub_id
+        - container_id
+        - location_id
+        - creator
+        - environment
+        - stateful
+        - provider
+        - server_id
+        - ready_state
+        - hostname
+        - migration
+        - service
+        - state
+        - events
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+        container_id:
+          type: string
+          description: A container identifier for the container that is associated with this instance.
+        location_id:
+          type: string
+          description: A location identifier that's associated with the server this instance is deployed to.
+        environment:
+          $ref: '#/components/schemas/EnvironmentSummary'
+        stateful:
+          type: object
+          description: Additional information about the instance relating to its setting as being stateful.
+          nullable: true
+          required:
+            - id
+            - base_hostname
+          properties:
+            id:
+              $ref: '#/components/schemas/ID'
+            base_hostname:
+              type: string
+              description: The base hostname for the given instance.
+        provider:
+          $ref: '#/components/schemas/ProviderSummary'
+        server_id:
+          type: string
+          description: An identifier for the server this instance is deployed to.
+        ready_state:
+          type: string
+          description: The state as it relates to the following. * `active` - instance can be started or stopped. * `purge` - instance should be deleted. * `hibernate` - instance is active but not allowed to run.
+          enum:
+            - active
+            - purge
+            - hibernate
+        hostname:
+          type: string
+          description: The hostname of the instance.
+        migration:
+          type: object
+          description: 'If this instance is scheduled to be migrated or has been migrated in the past, there will be information populating this field with the server that the instance came from or the server that the instance was moved to and the instance ID.'
+          nullable: true
+          required:
+            - key
+            - copy_volumes
+          properties:
+            to:
+              $ref: '#/components/schemas/MigrationInstance'
+            from:
+              $ref: '#/components/schemas/MigrationInstance'
+            started:
+              description: A timestamp of when the migration was started.
+              $ref: '#/components/schemas/DateTime'
+            completed:
+              description: A timestamp of when the migration was completed.
+              $ref: '#/components/schemas/DateTime'
+            key:
+              type: string
+              description: A key used by the platform to verify the migration.
+            copy_volumes:
+              type: boolean
+              description: A boolean where true represents the volumes for the instance should be copied to the new server as well.
+        purge_time:
+          descrption: 'If the instance was purged, the timestamp of when that happened.'
+          $ref: '#/components/schemas/DateTime'
+        serice:
+          type: string
+          description: If the instance is an instance of a service container that will be denoted here.
+          nullable: true
+          enum:
+            - discovery
+            - vpn
+            - loadbalancer
+        state:
+          $ref: '#/components/schemas/InstanceState'
+        events:
+          title: InstanceEvents
+          description: A collection of timestamps for each event in the instnaces lifetime.
+          required:
+            - created
+            - updated
+            - deleted
+            - first_started
+          properties:
+            created:
+              description: The timestamp of when the instance was created.
+              $ref: '#/components/schemas/DateTime'
+            updated:
+              description: The timestamp of when the instance was updated.
+              $ref: '#/components/schemas/DateTime'
+            deleted:
+              description: The timestamp of when the instance was deleted.
+              $ref: '#/components/schemas/DateTime'
+            first_started:
+              description: The timestamp of when the instance was started.
+              $ref: '#/components/schemas/DateTime'
+    InstanceIncludes:
+      title: InstanceIncludes
+      description: A resource associated with an instance.
+      type: object
+      required:
+        - creator
+        - servers
+        - locations
+        - providers
+        - containers
+        - environments
+      properties:
+        creator:
+          $ref: '#/components/schemas/CreatorInclude'
+        server:
+          $ref: '#/components/schemas/ServersIncludes'
+        locations:
+          $ref: '#/components/schemas/LocationsIncludes'
+        providers:
+          $ref: '#/components/schemas/ProvidersIncludes'
+        containers:
+          $ref: '#/components/schemas/ContainersIncludes'
+        environments:
+          $ref: '#/components/schemas/EnvironmentIncludes'
+    InstanceState:
+      title: InstanceState
+      allOf:
+        - required:
+            - current
+          properties:
+            current:
+              description: The current state of the instance.
+              type: string
+              enum:
+                - new
+                - starting
+                - reimaging
+                - migrating
+                - running
+                - stopping
+                - stopped
+                - failed
+                - deleting
+                - deleted
+            health:
+              type: object
+              description: information about the health of the instance.
+              required:
+                - healthy
+                - updated
+              properties:
+                healthy:
+                  type: boolean
+                  description: A boolean where true represents the instance being healthy.
+                updated:
+                  description: A timestamp of the last time the instance health was updated.
+                  $ref: '#/components/schemas/DateTime'
+        - $ref: '#/components/schemas/State'
+    Integrations:
+      title: InfrastructureProviderIntegrations
+      type: object
+      description: Information about a provider and how it integrates with the platform.
+      properties:
+        native:
+          $ref: '#/components/schemas/Native'
+        abstraction:
+          $ref: '#/components/schemas/Abstraction'
+    Invitation:
+      title: HubMembershipInvitation
+      type: object
+      description: Information about a hub membership invitation.
+      required:
+        - sender
+        - recipient
+        - events
+      properties:
+        sender:
+          type: object
+          description: Information about the origin account of the invitation.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              $ref: '#/components/schemas/ID'
+            type:
+              type: string
+              description: The account type.
+        recipient:
+          type: string
+          description: The email address for the invitations recipient.
+        events:
+          title: InvitationEvents
+          type: object
+          description: A collection of timestamps for each event in the invitation's lifetime.
+          required:
+            - created
+            - updated
+            - deleted
+            - accepted
+            - declined
+            - revoked
+          properties:
+            created:
+              description: The timestamp of when the invitation was created.
+              $ref: '#/components/schemas/DateTime'
+            updated:
+              description: The timestamp of when the invitation was updated.
+              $ref: '#/components/schemas/DateTime'
+            deleted:
+              description: The timestamp of when the invitation was deleted.
+              $ref: '#/components/schemas/DateTime'
+            accepted:
+              description: The timestamp of when the invitation was accepted.
+              $ref: '#/components/schemas/DateTime'
+            declined:
+              description: The timestamp of when the invitation was declined.
+              $ref: '#/components/schemas/DateTime'
+            revoked:
+              description: The timestamp of when the invitation was revoked.
+              $ref: '#/components/schemas/DateTime'
+    LegacyNetwork:
+      title: LegacyNetwork
+      type: object
+      nullable: true
+      description: Legacy network information for an environment.
+      required:
+        - subnet
+        - ipv4
+      properties:
+        subnet:
+          type: integer
+          description: The IPv4 subnet Id.
+        ipv4:
+          allOf:
+            - description: IPv4 information available from environemnts using legacy networking.
+            - $ref: '#/components/schemas/IPNet'
+    Load:
+      title: ServerStatsLoad
+      type: object
+      description: Statistics about the current load on the server.
+      required:
+        - avg1m
+        - avg5m
+        - avg15m
+      properties:
+        avg1m:
+          type: integer
+          description: The 1 minute load average.
+        avg5m:
+          type: integer
+          description: The 5 minute load average.
+        avg15m:
+          type: integer
+          description: the 15 minute load average.
+    LoadBalancerEnvironmentService:
+      title: LoadBalancerEnvironmentService
+      type: object
+      nullable: true
+      description: Information about the environments loadbalancer service(s).
+      required:
+        - enable
+        - container_id
+        - high_availability
+        - config
+      properties:
+        enable:
+          type: boolean
+          description: Whether or not the loadbalancer service is enabled.
+        container_id:
+          type: string
+          description: The ID of the loadbalancer service container
+        high_availability:
+          type: boolean
+          description: A boolean representing if this service container is set to high availability mode or not.
+        config:
+          type: object
+          description: The config object for the loadbalancer service.
+          nullable: true
+          required:
+            - deploy
+            - haproxy
+          properties:
+            deploy:
+              type: string
+              description: |-
+                The deployment strategy for this environment's load balancer(s). 
+                 - single: Deploys a single load balancer instance to the first available node in the target environment's cluster. 
+                 - per-provider: Deploys a load balancer instance to the first available node for every provider in the target environment's cluster. 
+                 - per-location: Deploys a load balancer instance to one node per location in the target environment's cluster.
+              enum:
+                - single
+                - per-provider
+                - per-location
+            haproxy:
+              type: object
+              description: Describes settings that are passed to HAProxy within the load balancer.
+              nullable: true
+              required:
+                - default
+                - ports
+                - ipv4
+                - ipv6
+              properties:
+                default:
+                  allOf:
+                    - description: Settings that are applied to any port that is not overridden in the following ports section.
+                    - $ref: '#/components/schemas/HAProxyConfig'
+                ports:
+                  allOf:
+                    - description: 'An object that defines how HAProxy will act on a specific port. The key is a custom port, and the value is the same settings object found under `default` above.'
+                    - $ref: '#/components/schemas/HAProxyConfig'
+                ipv4:
+                  type: boolean
+                  nullable: true
+                  description: Allow / disallow traffic to be routed via IPv4.
+                ipv6:
+                  type: boolean
+                  nullable: true
+                  description: Allow / disallow traffic to be routed via IPv6.
+    Location:
+      title: InfrastructureProviderLocation
+      type: object
+      description: Location information for a given provider.
+      required:
+        - id
+        - name
+        - geographic
+        - provider
+        - compatible
+        - features
+        - abbreviation
+        - annotations
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        name:
+          type: string
+          description: A name for the location.
+        geographic:
+          $ref: '#/components/schemas/Geographic'
+        provider:
+          $ref: '#/components/schemas/LocationProvider'
+        compatible:
+          type: boolean
+          description: A boolean where true means the locaiton is supported by the platform.
+        features:
+          type: object
+          description: Additional information about available and supported features of the provider location.
+          required:
+            - available
+            - supported
+          properties:
+            available:
+              description: Available features for the provider location.
+              type: array
+              items:
+                type: string
+            supported:
+              description: Supported features for the provider location.
+              type: array
+              items:
+                type: string
+        abbreviation:
+          type: string
+          description: An abbreviation for the given provider locaiton.
+        annotations:
+          type: object
+          description: Additional information about the given provider locaiton.
+          additionalProperties:
+            type: string
+    LocationProvider:
+      title: LocationProvider
+      type: object
+      description: Information about the locaiton of the provider.
+      required:
+        - identifier
+        - location
+        - code
+      properties:
+        identifier:
+          type: string
+          description: An identifier for the given provider
+        location:
+          type: string
+          description: A location name returned from the provider.
+        code:
+          type: string
+          description: A location code returned from the provider.
+    LocationsIncludes:
+      title: LocationIncludes
+      description: A resource thats associated with a provider location.
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/Location'
+    MembershipState:
+      title: MembershipState
+      allOf:
+        - required:
+            - current
+          properties:
+            current:
+              description: The current state of the membership.
+              type: string
+              enum:
+                - pending
+                - accepted
+                - declined
+                - revoked
+                - deleted
+        - $ref: '#/components/schemas/State'
+    MigrationInstance:
+      title: MigrationInstance
+      type: object
+      description: Information about an instances migration.
+      required:
+        - instance_id
+        - server_id
+      properties:
+        instance_id:
+          type: string
+          description: The ID of the instance.
+        server_id:
+          type: string
+          description: The ID of the server in the context its represented.
+    Native:
+      title: InfrastructureProviderNative
+      type: object
+      description: Information about a natively supported infrastructure provider.
+      required:
+        - identifier
+        - auth
+      properties:
+        identifier:
+          $ref: '#/components/schemas/NativeProviderIdentifier'
+        auth:
+          $ref: '#/components/schemas/IALAuth'
+    NativeProviderIdentifier:
+      title: NativeProviderIdentifier
+      type: string
+      description: An identifier for the provider
+      enum:
+        - packet
+        - equinix-metal
+        - coreweave
+        - psychz-networks
+        - vultr
+        - hivelocity
+        - aws
+        - azure
+        - gcp
+        - digitalocean
+    Network:
+      title: ServerStatsNetwork
+      type: object
+      description: Statistics about the networks on a given server.
+      required:
+        - external_ipv4
+        - external_ipv6
+      properties:
+        interfaces:
+          type: object
+          description: Network interfaces for a given server.
+          additionalProperties:
+            type: object
+            description: Network interface.
+            properties:
+              interface:
+                type: string
+                description: The interface name.
+              flags:
+                type: string
+                description: Flags for the given interface.
+              mtu:
+                type: integer
+                description: The maximum transmission unit for the interface.
+              mac_addr:
+                type: string
+                description: The mac address for the interface.
+              addrs:
+                description: An array of IP addresses associated with the interface.
+                type: array
+                items:
+                  type: string
+        external_ipv4:
+          type: string
+          description: The public IPv4 address used to connect to this server.
+        external_ipv6:
+          type: string
+          description: The public IPv6 address used to connect to this server.
+    OS:
+      title: ServerStatsOS
+      type: object
+      description: Statistics about the operating system installed on the server (CycleOS).
+      properties:
+        release:
+          type: string
+          description: The currently installed release version of the OS.
+        kernel:
+          type: string
+          description: The currently installed kernel version.
+        hostname:
+          type: string
+          description: The hostname as set by the given server's OS.
+    Permissions:
+      title: Permissions
+      description: Permissions information for an API Key
+      type: object
+      required:
+        - all_environments
+        - environments
+      properties:
+        all_environments:
+          type: boolean
+          description: 'A boolean, where true represents this API key is authorized to make requests that involve all of a hubs environments'
+        environments:
+          title: EnvironmentPermission
+          description: An environment ID and a boolean representing management configuration for an API key
+          type: object
+          required:
+            - id
+            - manage
+          properties:
+            id:
+              $ref: '#/components/schemas/ID'
+            manage:
+              type: boolean
+              description: 'A boolean, where true represents the API keys ability to make changes to the environment components'
+    PrivateNetwork:
+      title: PrivateNetwork
+      type: object
+      nullable: true
+      required:
+        - vxlan_tag
+        - subnet
+        - ipv6
+        - legacy
+      properties:
+        vxlan_tag:
+          type: integer
+          description: The vxlan tag added to each packet to help identify the network.
+        subnet:
+          type: string
+          description: The subnet ID.
+        ipv6:
+          allOf:
+            - description: The IPv6 interface.
+            - $ref: '#/components/schemas/IPNet'
+        legacy:
+          $ref: '#/components/schemas/LegacyNetwork'
+    Provider:
+      title: Provider
+      type: object
+      description: A provider resource.
+      required:
+        - id
+        - hub_id
+        - integrations
+        - events
+        - creator
+        - state
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+        integrations:
+          $ref: '#/components/schemas/Integrations'
+        events:
+          title: ProviderEvents
+          type: object
+          description: A collection of timestamps for each event in the provider's lifetime.
+          required:
+            - created
+            - updated
+            - deleted
+            - last_provision
+          properties:
+            created:
+              description: The timestamp of when the provider was created.
+              $ref: '#/components/schemas/DateTime'
+            updated:
+              description: The timestamp of when the provider was updated.
+              $ref: '#/components/schemas/DateTime'
+            deleted:
+              description: The timestamp of when the provider was deleted.
+              $ref: '#/components/schemas/DateTime'
+            last_provision:
+              description: The timestamp of when the provider was last used to provision a server.
+              $ref: '#/components/schemas/DateTime'
+        creator:
+          $ref: '#/components/schemas/Creator'
+        state:
+          $ref: '#/components/schemas/ProviderState'
+    ProviderState:
+      title: ProviderState
+      allOf:
+        - required:
+            - current
+          properties:
+            current:
+              description: The current state of the provider.
+              type: string
+              enum:
+                - new
+                - verifying
+                - live
+                - deleting
+                - deleted
+        - $ref: '#/components/schemas/State'
+    ProviderSummary:
+      title: ProviderSummary
+      description: A summary of the provider a given resource is deployed to.
+      type: object
+      required:
+        - identifier
+        - location
+      properties:
+        identifier:
+          type: string
+          description: An identifier for the provider. Custom IAL providers will be listed as `abstraction-<ID>` where the ID is a MongoDB ID.
+          enum:
+            - equinix-metal
+            - vultr
+            - aws
+            - abstraction-<MongoID>
+        location:
+          type: string
+          description: A location identifier associated with the provider.
+    ProvidersIncludes:
+      title: ProvidersIncludes
+      description: A resource thats associated with a provider.
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/Provider'
+    PublicAccount:
+      title: PublicAccount
+      description: Publicly available information about an account
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          title: AccountName
+          description: The first and last name of an account owner
+          type: object
+          required:
+            - first
+            - last
+          properties:
+            first:
+              type: string
+              description: The first name of the account owner
+            last:
+              type: string
+              description: The last name of the account owner
+        email:
+          title: AccountEmail
+          description: Email information for an account
+          type: object
+          required:
+            - address
+            - verified
+            - added
+          properties:
+            address:
+              type: string
+              description: The email address
+            verified:
+              type: boolean
+              description: A boolean representing if the email has been verified
+            added:
+              $ref: '#/components/schemas/DateTime'
+        events:
+          allOf:
+            - $ref: '#/components/schemas/Events'
+            - properties:
+                last_login:
+                  $ref: '#/components/schemas/DateTime'
+    RAM:
+      title: ServerStatsRAM
+      type: object
+      description: Statistics about the RAM on a given server.
+      required:
+        - available
+        - free
+        - total
+      properties:
+        available:
+          type: integer
+          description: The available RAM on the server.
+        free:
+          type: integer
+          description: The free RAM on the server.
+        total:
+          type: integer
+          description: The total RAM on the server.
+    Record:
+      title: DNSRecord
+      type: object
+      description: A DNS record.
+      required:
+        - id
+        - hub_id
+        - creator
+        - zone_id
+        - name
+        - resolved_domain
+        - type
+        - features
+        - state
+        - events
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+        creator:
+          $ref: '#/components/schemas/Creator'
+        zone_id:
+          type: string
+          description: A unique identifier for the zone
+        name:
+          type: string
+          description: 'A name used for the record, where `@` signifies the use of the root domain.'
+        resolved_domain:
+          type: string
+          description: The name of the record and the origin as a domain name.
+        type:
+          $ref: '#/components/schemas/RecordTypes'
+        features:
+          type: object
+          description: TLS features for the record.
+          required:
+            - certificate
+          nullable: true
+          properties:
+            certificate:
+              $ref: '#/components/schemas/Certificate'
+        state:
+          $ref: '#/components/schemas/RecordState'
+        events:
+          $ref: '#/components/schemas/Events'
+    RecordState:
+      title: DNSRecordState
+      allOf:
+        - required:
+            - current
+          properties:
+            current:
+              description: The current state of the record.
+              type: string
+              enum:
+                - pending
+                - live
+                - deleting
+                - deleted
+        - $ref: '#/components/schemas/State'
+    RecordTypes:
+      title: DNSRecordTypes
+      type: object
+      description: DNS record types the platform supports.
+      properties:
+        a:
+          type: object
+          description: A DNS A record
+          required:
+            - ip
+          properties:
+            ip:
+              type: string
+              description: The IPv4 address that the A record should map to.
+        aaaa:
+          type: object
+          description: A DNS AAAA record
+          required:
+            - ip
+          properties:
+            ip:
+              type: string
+              description: The IPv6 address that the AAAA record should map to.
+        cname:
+          type: object
+          description: A DNS CNAME record
+          required:
+            - domain
+          properties:
+            domain:
+              type: string
+              description: The domain string the record resolves to.
+        ns:
+          type: object
+          description: A DNS NS record
+          required:
+            - domain
+          properties:
+            domain:
+              type: string
+              description: The domain of the nameserver for this record.
+        mx:
+          type: object
+          description: A DNS MX record
+          required:
+            - priority
+            - domain
+          properties:
+            priority:
+              type: string
+              description: The priority setting for this mx record.
+            domain:
+              type: string
+              description: The domain this mx record points to.
+        txt:
+          type: object
+          description: A DNS TXT record.
+          required:
+            - value
+          properties:
+            value:
+              type: string
+              description: The value for this TXT record.
+        alias:
+          type: object
+          description: A DNS ALIAS record.
+          required:
+            - domain
+          properties:
+            domain:
+              type: string
+              description: The domain string returned from the DNS server when this alias record is requested.
+        srv:
+          type: object
+          description: A DNS SRV record.
+          required:
+            - weight
+            - priority
+            - port
+            - domain
+          properties:
+            weight:
+              type: integer
+              description: Teh weight configured for this record - breaks ties for priority.
+            priority:
+              type: integer
+              description: The priority for the record.
+            port:
+              type: integer
+              description: The port number for the service.
+            domain:
+              type: string
+              description: The domain for the record.
+        caa:
+          type: object
+          description: A DNS CAA record.
+          required:
+            - tag
+            - value
+          properties:
+            tag:
+              type: string
+              description: The ASCII string that represents the identifier of the property represented by the record.
+            value:
+              type: string
+              description: The value associated with the tag.
+        linked:
+          type: object
+          description: 'A Linked record is a record special to Cycle.  It represents a url that points to a specific container, however the IP address mapping in handled automatically by the platform.'
+          required:
+            - features
+          properties:
+            contianer_id:
+              type: string
+              description: The ID of the container this record is related to.
+            features:
+              type: object
+              description: Features associated with this record.
+              required:
+                - tls
+              properties:
+                tls:
+                  type: object
+                  description: TLS properties of the record.
+                  required:
+                    - enable
+                  properties:
+                    enable:
+                      type: boolean
+                      description: 'A boolean, where true represents this record will be paired with a TLS certificate automatically maintained by the platform.'
+    Resources:
+      title: ContainerResources
+      type: object
+      description: Configuration settings for the resource allocations and limits of a given container.
+      required:
+        - cpu
+        - ram
+      properties:
+        cpu:
+          type: object
+          description: Configurations settings related to CPU usage.
+          properties:
+            shares:
+              type: object
+              description: A share represents 1/10th of the available compute time on a single thread.
+              required:
+                - limit
+                - reserve
+              properties:
+                limit:
+                  type: integer
+                  description: The limit (maximum) amount of shares each instance of a container can use.
+                reserve:
+                  type: integer
+                  description: The reserve (allocation) number of shares for each instance of a given container.
+            cpus:
+              type: array
+              items:
+                type: integer
+              description: An array of CPU cores this container will be pinned to.
+        ram:
+          type: object
+          description: Configuration settings for limits and reserves of RAM resources for the given container.
+          properties:
+            limit:
+              type: string
+              description: The limit (maximum) amount of RAM each instance of the given container can use.
+              example: '1G, 2M'
+            reserve:
+              type: string
+              description: The reserve (allocation) of RAM given to each instance of the container.
+    Runtime:
+      title: ContainerRuntime
+      type: object
+      description: Runtime configurations for a given container.
+      required:
+        - privileged
+      properties:
+        command:
+          type: object
+          description: A command that will be run in place of the images defined startup command.
+          required:
+            - path
+            - args
+          properties:
+            path:
+              type: string
+              description: System path for the command.
+            args:
+              type: string
+              description: Arguments to pass to the command.
+        namespaces:
+          type: array
+          items:
+            type: string
+          description: Namespaces the given container will have access to.
+          enum:
+            - ipc
+            - pid
+            - uts
+            - network
+            - mount
+            - user
+        environment_vars:
+          type: object
+          description: A record of environment variables for the given container.
+          additionalProperties:
+            type: string
+        privileged:
+          type: boolean
+          description: A boolean where true will configure the given container to run in privileged mode.
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: A list of linux kernel capabilites for the given container.
+        workdir:
+          type: string
+          description: Configure the working directory for the given container.
+        sysctl:
+          type: object
+          description: A record of sysctl fields and values for a given container.
+          additionalProperties:
+            type: string
+        rlimits:
+          type: object
+          description: A record of rlimits and their values.
+          additionalProperties:
+            type: object
+            properties:
+              hard:
+                type: integer
+                description: The hard limit for the rlimit.
+              soft:
+                type: integer
+                description: The soft limit for the rlimit.
+    Server:
+      title: Server
+      type: object
+      description: 'The server resource, referring to servers that have been deployed to a Cycle hub.'
+      required:
+        - id
+        - hub_id
+        - location_id
+        - model_id
+        - node_id
+        - hostname
+        - creator
+        - provider
+        - cluster
+        - features
+        - constraints
+        - state
+        - events
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        hub_id:
+          $ref: '#/components/schemas/HubID'
+        location_id:
+          type: string
+          description: An identifier for the location this server is deployed to.
+        model_id:
+          type: string
+          description: An identifier for the model of server that is deployed.
+        node_id:
+          type: string
+          description: An identifier for the node.
+        hostname:
+          type: string
+          description: The server hostname.
+        creator:
+          $ref: '#/components/schemas/Creator'
+        provider:
+          $ref: '#/components/schemas/ServerProvider'
+        cluster:
+          type: string
+          description: The cluster the given server is deployed to.
+        features:
+          $ref: '#/components/schemas/ServerFeatures'
+        constraints:
+          $ref: '#/components/schemas/ServerConstraints'
+        state:
+          $ref: '#/components/schemas/ServerState'
+        events:
+          title: ServerEvents
+          type: object
+          description: A collection of timestamps for each event in the server's lifetime.
+          required:
+            - created
+            - updated
+            - deleted
+            - provisioning
+          properties:
+            created:
+              description: The timestamp of when the server was created.
+              $ref: '#/components/schemas/DateTime'
+            updated:
+              description: The timestamp of when the server was updated.
+              $ref: '#/components/schemas/DateTime'
+            deleted:
+              description: The timestamp of when the server was deleted.
+              $ref: '#/components/schemas/DateTime'
+            provisioning:
+              type: object
+              description: Information about the provisioning of the server.
+              required:
+                - started
+                - completed
+              properties:
+                started:
+                  description: A timestamp of when the server started provisioning.
+                  $ref: '#/components/schemas/DateTime'
+                completed:
+                  description: A timestamp of when the server completed provisioning.
+                  $ref: '#/components/schemas/DateTime'
+        meta:
+          $ref: '#/components/schemas/ServerMeta'
+    ServerConstraints:
+      title: ServerConstraints
+      type: object
+      description: Constraints to apply to the server.
+      required:
+        - tags
+        - allow
+      properties:
+        tags:
+          description: A list of server tags to put on the given server.
+          type: array
+          items:
+            type: string
+        allow:
+          type: object
+          description: 'Settings for the server, things that are or are not allowed.'
+          required:
+            - pool
+            - services
+            - overcommit
+          properties:
+            pool:
+              type: boolean
+              description: A boolean where true means - allow containers with no tags specified to be deployed to this server.
+            services:
+              type: boolean
+              description: A boolean where true means - allow service containers to be deployed to this container.
+            overcommit:
+              type: boolean
+              description: A boolean where true means - allow twice the normal amount of CPU shares to be allocated to containers deployed to this server.
+    ServerFeatures:
+      title: ServerFeatures
+      type: object
+      description: A set of features a given server can have and their information.
+      required:
+        - sftp
+        - base_volume_ gb
+      properties:
+        sftp:
+          type: boolean
+          description: A boolean where true means the server accepts incoming SFTP connections through the remote volume integration.
+        base_volume_gb:
+          type: integer
+          description: The size of the base volume (where Cycle stores container images on this server).
+    ServerMeta:
+      title: ServerMeta
+      type: object
+      description: A list of meta fields that can be applied to a server.
+      properties:
+        node:
+          type: object
+          description: Infrormation about the status of the server.
+          required:
+            - last_checkin
+            - drivers
+            - state
+            - stats
+            - healthy
+            - online
+          properties:
+            last_checkin:
+              description: The last time this server checked in with the platform.
+              $ref: '#/components/schemas/DateTime'
+            drivers:
+              description: An array a drivers associated with the given server.
+              type: array
+              items:
+                type: string
+            state:
+              $ref: '#/components/schemas/ServerState'
+            stats:
+              $ref: '#/components/schemas/Stats'
+            healthy:
+              type: boolean
+              description: A boolean where true means the platform is reporting the server as healthy.
+            online:
+              type: boolean
+              description: A boolean where true means the server is online and reachable by the platform.
+        instances_count:
+          $ref: '#/components/schemas/StateCountSummary'
+    ServerProvider:
+      title: ServerProvider
+      type: object
+      description: A resource regarding the provider a given server is deployed from.
+      required:
+        - identifier
+        - model
+        - location
+        - server
+      properties:
+        identifier:
+          type: string
+          description: An identifier for the provider this server is deployed from.
+        model:
+          type: string
+          description: The model of the server that is deployed.
+        location:
+          type: string
+          description: A location where the server is deployed.
+        server:
+          type: string
+          description: A provider specific identifier for the server.
+        init_ips:
+          description: The IP's assigned to this server during provisioning.
+          type: array
+          items:
+            type: string
+        mac_addr:
+          type: string
+          description: The mac address for the server.
+    ServerState:
+      title: ServerState
+      allOf:
+        - required:
+            - current
+          properties:
+            current:
+              description: the current state of the server.
+              type: string
+              enum:
+                - new
+                - live
+                - provisioning
+                - offline
+                - deleting
+                - deleted
+        - $ref: '#/components/schemas/State'
+    ServersIncludes:
+      title: ServerIncludes
+      description: A resource thats associated with a server.
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/Server'
+    StackSummary:
+      title: ContainerStackSummary
+      description: A summary of the stack this container was created format.
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        image:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The ID of the image used for this container.
+        build_id:
+          type: string
+          description: The ID of the stack build this container is associated with.
+        identifier:
+          type: string
+          description: 'The container identifier, usually the key to the container section of a stack file.'
+    State:
+      title: State
+      description: Information regarding the current state of the resource.
+      type: object
+      required:
+        - changed
+      properties:
+        changed:
+          $ref: '#/components/schemas/DateTime'
+        error:
+          type: object
+          description: The timestamp of when the error was encountered.
+          properties:
+            time:
+              description: The timestamp of when the error was encountered.
+              $ref: '#/components/schemas/DateTime'
+    StateCountSummary:
+      title: ResourceCountSummary
+      type: object
+      description: A summary of resources by state
+      required:
+        - state
+        - total
+        - available
+      properties:
+        state:
+          title: CountsByState
+          type: object
+          description: 'A count of this resource, grouped by state.'
+          additionalProperties:
+            type: integer
+        total:
+          type: integer
+          description: The total number of this resource
+        available:
+          type: integer
+          description: 'The total number of this resource available, less any deleted ones.'
+      example:
+        state:
+          new: 0
+          starting: 0
+          running: 5
+          stopping: 0
+          deleting: 0
+          deleted: 0
+        total: 5
+        available: 5
+    Stats:
+      title: NodeMetaStatsStats
+      type: object
+      description: Statistics that pertain to a specific node.
+      required:
+        - network
+        - uptime
+        - cpu
+        - load
+        - ram
+        - storage
+        - os
+        - versions
+      properties:
+        network:
+          $ref: '#/components/schemas/Network'
+        uptime:
+          $ref: '#/components/schemas/Uptime'
+        cpu:
+          $ref: '#/components/schemas/CPU'
+        load:
+          $ref: '#/components/schemas/Load'
+        ram:
+          $ref: '#/components/schemas/RAM'
+        storage:
+          $ref: '#/components/schemas/Storage'
+        os:
+          $ref: '#/components/schemas/OS'
+        versions:
+          $ref: '#/components/schemas/Versions'
+    Storage:
+      title: ServerStatsStorage
+      type: object
+      description: Statistics about storage for a given server.
+      required:
+        - volume_groups
+        - mounts
+      properties:
+        volume_groups:
+          description: An array of volume group objects.
+          type: array
+          items:
+            type: object
+            description: Volume group
+            required:
+              - name
+              - size
+              - volumes
+            properties:
+              name:
+                type: string
+                description: A name for the volume group.
+              size:
+                type: integer
+                description: A number representing the aggregate group volume size in megabytes.
+              volumes:
+                description: The actual volumes.
+                type: array
+                items:
+                  type: object
+                  required:
+                    - name
+                    - size
+                    - data_percent
+                    - meta_percent
+                    - pool
+                  properties:
+                    name:
+                      type: string
+                      description: The name of the volume.
+                    size:
+                      type: integer
+                      description: The size in megabytes of the volume.
+                    data_percent:
+                      type: integer
+                      description: The percent of the volumes size being used by data.
+                    meta_percent:
+                      type: integer
+                      description: The percent of the volumes size being used by meta data.
+                    pool:
+                      type: string
+                      description: The name of the volume pool this volume is associated with.
+        mounts:
+          type: object
+          description: Records that show information about mounted filesystems where the key is the path to the mount.
+          additionalProperties:
+            title: MountedFS
+            type: object
+            description: Mounted filesystem information.
+            required:
+              - type
+              - total
+              - free
+              - used
+            properties:
+              device:
+                type: string
+                description: The device assocaited with the mount.
+              type:
+                type: string
+                description: The type of filesystem in use by the mount.
+              mountpoint:
+                type: string
+                description: The path the mount is associated with.
+              total:
+                type: integer
+                description: The total amount of storage in KB available at this mount.
+              free:
+                type: integer
+                description: The amount of uninitialized storage in KB.
+              used:
+                type: integer
+                description: The amount of storage being used in KB.
+    Term:
+      title: BillingTerm
+      type: object
+      description: Information about a billing term.
+      required:
+        - start
+        - end
+        - renew
+      properties:
+        start:
+          description: A timestamp describing the start of a billing term.
+          $ref: '#/components/schemas/DateTime'
+        end:
+          description: A timestamp describing the end of a billing term.
+          $ref: '#/components/schemas/DateTime'
+        renew:
+          type: string
+          description: The term renewal period.
+          enum:
+            - once
+            - monthly
+            - yearly
+          nullable: true
+    Uptime:
+      title: ServerStatsUptime
+      type: object
+      description: Statistics describing the uptime of a given server.
+      properties:
+        seconds:
+          type: number
+          description: The amount in seconds the server has been up (resets on restart).
+        cpu_idle:
+          type: number
+          description: CPU idle time.
+    Versions:
+      title: ServerStatsVersions
+      type: object
+      description: Information about the versions of Cycle services on a given server.
+      required:
+        - services
+      properties:
+        services:
+          description: A list of records about Cycle services.
+          type: object
+          enum:
+            - factory
+            - compute
+            - compute-spawner
+            - compute-proxy
+            - public-api
+            - admin-api
+            - admin-portal
+            - oauth
+            - portal
+            - console
+            - manager
+            - dns
+            - agent
+            - agent-spawner
+            - nexus
+          additionalProperties:
+            type: string
+    VolumeSummary:
+      title: VolumeSummary
+      type: object
+      description: A summary of relevant volume information.
+      required:
+        - id
+        - hash
+        - config
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        hash:
+          type: string
+          description: A unique hash for the given volume.
+        config:
+          $ref: '#/components/schemas/Volumes'
+    Volumes:
+      title: ContainerVolumes
+      type: object
+      description: Configuration settings for container volumes.
+      required:
+        - read_only
+        - destination
+      properties:
+        read_only:
+          type: boolean
+          description: A boolean where true marks the volume as read only.
+        local:
+          type: object
+          description: Configuration for settings local to the container filesystem.
+          required:
+            - max_size
+          properties:
+            max_size:
+              type: string
+              description: The maximum size the volume can grow to. A number followed by a size. `10G` would be 10 gigabytes.
+              example: 10G
+            storage_pool:
+              type: boolean
+              description: A boolean where true signifies using the largest drive over 2TB for the target server.
+        destination:
+          type: string
+          description: The mountpoint path for the container.
+        reomte_access:
+          type: object
+          description: Configuration settings for remotely accessing the container volume.
+          required:
+            - enable
+            - password
+          properties:
+            enable:
+              type: boolean
+              description: A boolean where true represents this container volume being open to remote access connections over SFTP.
+            password:
+              type: object
+              description: Password configuration settings for the remote access of the container volume.
+              required:
+                - algorithm
+                - data
+              properties:
+                algorithm:
+                  type: string
+                  description: The hashing algorithm used to has the password.
+                  enum:
+                    - raw
+                    - sha512
+                    - md5
+                data:
+                  type: string
+                  description: The raw or hashed password.
+    VpnEnvironmentService:
+      title: VpnEnvironmentService
+      type: object
+      nullable: true
+      description: Information about the environments vpn service(s).
+      required:
+        - enable
+        - container_id
+        - high_availability
+        - config
+      properties:
+        enable:
+          type: boolean
+          description: Whether or not the VPN service is enabled.
+        container_id:
+          type: string
+          description: The ID of the VPN service container
+        high_availability:
+          type: boolean
+          description: A boolean representing if this service container is set to high availability mode or not.
+        config:
+          type: object
+          nullable: true
+          description: The config object for the VPN service.
+          required:
+            - allow_internet
+            - auth
+          properties:
+            allow_internet:
+              type: boolean
+              description: 'If true, routes all traffic through the VPN, even non-Cycle traffic.'
+            auth:
+              type: object
+              description: Auth configuration for the VPN.
+              required:
+                - webhook
+                - cycle_accounts
+              properties:
+                webhook:
+                  type: string
+                  nullable: true
+                  description: 'A webhook endpoint to hit. Will be passed the login credentials provided to the user, and should return a 200 status if the login is permitted.'
+                cycle_accounts:
+                  type: boolean
+                  description: 'If true, allows any Cycle account with access to the environment to log in to the VPN using their Cycle email and password.'
+                vpn_accounts:
+                  type: boolean
+                  description: 'If true, allows the custom VPN accounts to log in to the VPN.'
+    _deploy:
+      title: ContainerDeploy
+      type: object
+      description: Deployment configuration for the given container.
+      required:
+        - instances
+      properties:
+        instances:
+          type: integer
+          description: The number of initial desired instances for a given container.
+        strategy:
+          type: string
+          description: The deployment strategy to use when scaling the given container.
+          enum:
+            - resource-density
+            - first-available
+            - manual
+            - high-availability
+        constraints:
+          type: object
+          description: Settings that give more granular control over deployment targets and conditions.
+          properties:
+            node:
+              type: object
+              description: Constraint settings related to which nodes an instance can be deployed to.
+              required:
+                - tags
+              properties:
+                tags:
+                  type: object
+                  description: Lists of server tags that formally declair servers that match the criteria for deployment.
+                  properties:
+                    any:
+                      type: array
+                      items:
+                        type: string
+                      description: A list of tags where a server matching any tags from the list is qualified as a deployment target.
+                    all:
+                      type: array
+                      items:
+                        type: string
+                      description: A list of tags where a server matching all tags from the list is the only scenario where the server is qualified as a deployment target.
+            containers:
+              type: array
+              items:
+                type: string
+              description: An array of container identifiers the platform will send the start signal to before sending the start signal to this container.
+        shutdown:
+          type: object
+          description: Configuration for what to do during container shutdown.
+          required:
+            - graceful_timeout
+            - signals
+          properties:
+            graceful_timeout:
+              type: integer
+              description: The time in seconds the platform will wait for a container to stop gracefully.
+            signals:
+              type: array
+              items:
+                type: string
+              description: Process signal sent to the container process.
+              enum:
+                - SIGTERM
+                - SIGINT
+                - SIGUSR1
+                - SIGUSR2
+                - SIGHUP
+                - SIGQUIT
+        startup:
+          type: object
+          description: Configurations for container startup.
+          properties:
+            delay:
+              type: integer
+              description: A value in seconds representing how long the platform will wait before sending the start signal to the given container.
+        restart:
+          type: object
+          description: Configurations for container restart events.
+          required:
+            - condition
+            - delay
+            - max_attempts
+          properties:
+            condition:
+              type: string
+              description: Policy for what should happen in the event of a container dying.
+              enum:
+                - always
+                - never
+                - failure
+            delay:
+              type: integer
+              description: Time in seconds the platform will wait before trying to restart the container.
+            max_attempts:
+              type: integer
+              description: The amount of times the platform will attempt the restart policies.
+        health_check:
+          type: object
+          description: Configuration for determining the health of a container.
+          required:
+            - command
+            - retries
+            - interval
+            - timeout
+            - restart
+          properties:
+            command:
+              type: string
+              description: The command that will be run to verify the health of the container.
+            retries:
+              type: integer
+              description: The number of times the platform will retry the command before marking the container unhealthy.
+            interval:
+              type: integer
+              description: The number of seconds between retries.
+            timeout:
+              type: integer
+              description: The number of time in seconds before a health check attempt times out.
+            restart:
+              type: boolean
+              description: A boolean where `true` represents the desire for a container to restart if unhealthy.
+        telemetry:
+          type: object
+          description: Configuration settings for container telemetery reporting.
+          required:
+            - retention
+            - interval
+            - disable
+          properties:
+            retention:
+              type: integer
+              description: The number in seconds for telemetry data to be retained.
+            interval:
+              type: integer
+              description: The number in seconds between samples.
+            disable:
+              type: boolean
+              description: A boolean where true disables all telemetry reporting for this container.
+            webhook:
+              type: string
+              description: An endpoint to report the telemetry data to.
