@@ -10047,7 +10047,6 @@ components:
           enum:
             - start
             - stop
-            - delete
       description: The name of the action to perform.
     ContainerEnvironmentSummary:
       title: ContainerEnvironmentSummary
@@ -10824,7 +10823,6 @@ components:
           enum:
             - start
             - stop
-            - delete
           description: The name of the action to perform.
     Error:
       title: Error
